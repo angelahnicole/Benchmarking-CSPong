@@ -40,13 +40,6 @@ namespace CSPong
 {
 	CS_DEFINE_NAMEDTYPE(ParticleEffectComponentFactory);
 
-	const ParticleEffectComponentFactory::ParticleType ParticleEffectComponentFactory::k_gameParticles[] =
-	{
-		ParticleEffectComponentFactory::ParticleType::k_blueMagmaBurst, ParticleEffectComponentFactory::ParticleType::k_blueIceCreamBurst,
-		ParticleEffectComponentFactory::ParticleType::k_yellowMagmaBurst, ParticleEffectComponentFactory::ParticleType::k_pinkIceCreamBurst,
-		ParticleEffectComponentFactory::ParticleType::k_smokeStream, ParticleEffectComponentFactory::ParticleType::k_beamStream
-	};
-
 	//---------------------------------------------------
 	//---------------------------------------------------
 	ParticleEffectComponentFactoryUPtr ParticleEffectComponentFactory::Create()
@@ -63,12 +56,7 @@ namespace CSPong
 	//----------------------------------------------------------
 	ParticleEffectComponentFactory::ParticleEffectComponentFactory()
 	{
-		/*int particleSize = sizeof(CSRendering::Particle);
 
-		std::ostringstream oss;
-		oss << "TESTINGGG: Size of the particle struct is: " << particleSize;
-
-		CS_LOG_VERBOSE(oss.str());*/
 	}
 	//----------------------------------------------------------
 	//----------------------------------------------------------
@@ -118,30 +106,30 @@ namespace CSPong
 		CSRendering::ParticleEffectCSPtr particleEffect = nullptr;
 		switch (in_particleType)
 		{
-			case ParticleType::k_blueMagmaBurst:
-				particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/BlueMagmaBurst.csparticle");
-				break;
-			case ParticleType::k_yellowMagmaBurst:
-				particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/YellowMagmaBurst.csparticle");
-				break;
-			case ParticleType::k_blueIceCreamBurst:
-				particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/BlueIceCreamBurst.csparticle");
-				break;
-			case ParticleType::k_pinkIceCreamBurst:
-				particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/PinkIceCreamBurst.csparticle");
-				break;
-			case ParticleType::k_beamStream:
-				particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/BeamStream.csparticle");
-				break;
-			case ParticleType::k_smokeStream:
-				particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/SmokeStream.csparticle");
-				break;
-			case ParticleType::k_sparksStream:
-				particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/SparksStream.csparticle");
-				break;
-			default:
-				particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/SmokeStream.csparticle");
-				break;
+		case ParticleType::k_blueMagmaBurst:
+			particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/BlueMagmaBurst.csparticle");
+			break;
+		case ParticleType::k_yellowMagmaBurst:
+			particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/YellowMagmaBurst.csparticle");
+			break;
+		case ParticleType::k_blueIceCreamBurst:
+			particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/BlueIceCreamBurst.csparticle");
+			break;
+		case ParticleType::k_pinkIceCreamBurst:
+			particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/PinkIceCreamBurst.csparticle");
+			break;
+		case ParticleType::k_beamStream:
+			particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/BeamStream.csparticle");
+			break;
+		case ParticleType::k_smokeStream:
+			particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/SmokeStream.csparticle");
+			break;
+		case ParticleType::k_sparksStream:
+			particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/SparksStream.csparticle");
+			break;
+		default:
+			particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/SmokeStream.csparticle");
+			break;
 		}
 
 		CSRendering::ParticleEffectComponentUPtr particleComponent = renderFactory->CreateParticleEffectComponent(particleEffect);
@@ -159,78 +147,18 @@ namespace CSPong
 	}
 	//------------------------------------------------------------
 	//------------------------------------------------------------
-	void ParticleEffectComponentFactory::AddPlayerParticlesOnCollision(CSCore::EntitySPtr in_playerEntity, CSCore::IConnectableEvent<DynamicBodyComponent::CollisionDelegate>& in_collisionEvent)
-	{
-		//Add magma particles if it's chosen
-		if (m_particlesChosen[k_playerParticlesIx])
-		{
-			auto particleComponent = CreateOnCollisionParticleEffectComponent(k_gameParticles[k_playerParticlesIx], in_collisionEvent);
-			in_playerEntity->AddComponent(particleComponent);
-		}
-
-		//Add ice cream particles if it's chosen
-		if (m_particlesChosen[k_playerParticlesIx + 1])
-		{
-			auto particleComponent = CreateOnCollisionParticleEffectComponent(k_gameParticles[k_playerParticlesIx + 1], in_collisionEvent);
-			in_playerEntity->AddComponent(particleComponent);
-		}
-	}
-	//------------------------------------------------------------
-	//------------------------------------------------------------
-	void ParticleEffectComponentFactory::AddOpponentParticlesOnCollision(CSCore::EntitySPtr in_opponentEntity, CSCore::IConnectableEvent<DynamicBodyComponent::CollisionDelegate>& in_collisionEvent)
-	{
-		//Add magma particles if it's chosen
-		if (m_particlesChosen[k_opponentParticlesIx])
-		{
-			auto particleComponent = CreateOnCollisionParticleEffectComponent(k_gameParticles[k_opponentParticlesIx], in_collisionEvent);
-			in_opponentEntity->AddComponent(particleComponent);
-		}
-
-		//Add ice cream particles if it's chosen
-		if (m_particlesChosen[k_opponentParticlesIx + 1])
-		{
-			auto particleComponent = CreateOnCollisionParticleEffectComponent(k_gameParticles[k_opponentParticlesIx + 1], in_collisionEvent);
-			in_opponentEntity->AddComponent(particleComponent);
-		}
-	}
-	//------------------------------------------------------------
-	//------------------------------------------------------------
 	void ParticleEffectComponentFactory::AddBallParticles(CSCore::EntitySPtr in_ballEntity)
 	{
-		//Add smoke particles if it's chosen
-		if (m_particlesChosen[k_ballParticlesIx])
+		for (std::vector<ParticleType>::size_type i = 0; i != m_ballParticleTypes.size(); i++)
 		{
-			CSRendering::ParticleEffectComponentSPtr particleComponent = CreateParticleEffectComponent(k_gameParticles[k_ballParticlesIx], true);
-			in_ballEntity->AddComponent(particleComponent);
-		}
-
-		//Add beam particles if it's chosen
-		if (m_particlesChosen[k_ballParticlesIx + 1])
-		{
-			CSRendering::ParticleEffectComponentSPtr particleComponent = CreateParticleEffectComponent(k_gameParticles[k_ballParticlesIx + 1], true);
-			in_ballEntity->AddComponent(particleComponent);
+			in_ballEntity->AddComponent( CreateParticleEffectComponent(m_ballParticleTypes[i], true) );
 		}
 	}
 	//------------------------------------------------------------
 	//------------------------------------------------------------
-	void ParticleEffectComponentFactory::SetPlayerParticles(const bool in_magmaUsed, const bool in_iceCreamUsed)
+	void ParticleEffectComponentFactory::AssignBallParticles(ParticleType* in_particles, const s32 in_numParticles)
 	{
-		m_particlesChosen[k_playerParticlesIx] = in_magmaUsed;
-		m_particlesChosen[k_playerParticlesIx + 1] = in_iceCreamUsed;
-	}
-	//------------------------------------------------------------
-	//------------------------------------------------------------
-	void ParticleEffectComponentFactory::SetOpponentParticles(const bool in_magmaUsed, const bool in_iceCreamUsed)
-	{
-		m_particlesChosen[k_opponentParticlesIx] = in_magmaUsed;
-		m_particlesChosen[k_opponentParticlesIx + 1] = in_iceCreamUsed;
-	}
-	//------------------------------------------------------------
-	//------------------------------------------------------------
-	void ParticleEffectComponentFactory::SetBallParticles(const bool in_smokeUsed, const bool in_beamUsed)
-	{
-		m_particlesChosen[k_ballParticlesIx] = in_smokeUsed;
-		m_particlesChosen[k_ballParticlesIx + 1] = in_beamUsed;
+		m_ballParticleTypes.assign(in_particles, in_particles + in_numParticles);
 	}
 	
 }

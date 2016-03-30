@@ -32,6 +32,7 @@
 #include <Game/GameEntityFactory.h>
 #include <Game/Ball/BallControllerComponent.h>
 #include <Game/Physics/PhysicsSystem.h>
+#include <Game/Particles/ParticleEffectComponentFactory.h>
 
 #include <ChilliSource/Core/Base.h>
 #include <ChilliSource/Core/Delegate.h>
@@ -58,6 +59,14 @@ namespace CSPong
     //------------------------------------------------------------
     void GameState::OnInit()
     {   
+		const s32 numParticles = 1;
+		ParticleEffectComponentFactory::ParticleType ballParticleTypes
+		{ 
+			ParticleEffectComponentFactory::ParticleType::k_smokeStream 
+		};
+		auto particleECF = CSCore::Application::Get()->GetSystem<ParticleEffectComponentFactory>();
+		particleECF->AssignBallParticles(&ballParticleTypes, numParticles);
+
         GetScene()->SetClearColour(CSCore::Colour::k_black);
         
         CSCore::EntitySPtr camera = m_gameEntityFactory->CreateCamera();
@@ -108,6 +117,7 @@ namespace CSPong
     {
         m_scoreChangedConnection.reset();
 
+
 		// update all profiles
 		PROFILE_UPDATE();
 
@@ -118,7 +128,7 @@ namespace CSPong
 		{
 			// get both parts of profile string
 			std::string profileStr = PROFILE_GET_FLAT_STRING();
-			profileStr.append("\n\n");
+			profileStr.append("\r\n\r\n");
 			profileStr.append(PROFILE_GET_TREE_STRING());
 
 			// write profile 

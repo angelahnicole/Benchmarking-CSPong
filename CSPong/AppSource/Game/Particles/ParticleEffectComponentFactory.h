@@ -130,31 +130,9 @@ namespace CSPong
 		//------------------------------------------------------------
 		CSRendering::ParticleEffectComponentSPtr CreateOnCollisionParticleEffectComponent(const ParticleType in_particleType, CSCore::IConnectableEvent<DynamicBodyComponent::CollisionDelegate>& in_collisionEvent);
 		//------------------------------------------------------------
-		/// Creates and adds particle components to the player entity
-		/// according to the k_gameParticles and m_particlesChosen 
-		/// arrays. It plays these particles on collision.
-		///
-		/// @author Angela Gross
-		///
-		/// @param The entity that represents the player
-		/// @param The collision delegate event used to trigger the
-		/// collision you want to play the particle effect during.
-		//------------------------------------------------------------
-		void AddPlayerParticlesOnCollision(CSCore::EntitySPtr in_playerEntity, CSCore::IConnectableEvent<DynamicBodyComponent::CollisionDelegate>& in_collisionEvent);
-		//------------------------------------------------------------
-		/// Creates and adds particle components to the opponent entity
-		/// according to the k_gameParticles and m_particlesChosen 
-		/// arrays. It plays these particles on collision.
-		///
-		/// @author Angela Gross
-		///
-		/// @param The entity that represents the opponent
-		//------------------------------------------------------------
-		void AddOpponentParticlesOnCollision(CSCore::EntitySPtr in_opponentEntity, CSCore::IConnectableEvent<DynamicBodyComponent::CollisionDelegate>& in_collisionEvent);
-		//------------------------------------------------------------
 		/// Creates and adds particle components to the ball entity
-		/// according to the k_gameParticles and m_particlesChosen 
-		/// arrays.
+		/// according to what particle types are in 
+		/// m_ballParticleTypes.
 		///
 		/// @author Angela Gross
 		///
@@ -162,37 +140,13 @@ namespace CSPong
 		//------------------------------------------------------------
 		void AddBallParticles(CSCore::EntitySPtr in_ballEntity);
 		//------------------------------------------------------------
-		/// Sets the player particles that were chosen by the user
-		/// in m_particlesChosen.
+		/// Sets the ball particles
 		///
 		/// @author Angela Gross
 		///
-		/// @param Whether or not the magma particles will be added
-		/// @param Whether or not the ice cream particles will be 
-		/// added
+		/// @param Particle types to add to ball
 		//------------------------------------------------------------
-		void SetPlayerParticles(const bool in_magmaUsed, const bool in_iceCreamUsed);
-		//------------------------------------------------------------
-		/// Sets the opponent particles that were chosen by the user
-		/// in m_particlesChosen.
-		///
-		/// @author Angela Gross
-		///
-		/// @param Whether or not the magma particles will be added
-		/// @param Whether or not the ice cream particles will be 
-		/// added
-		//------------------------------------------------------------
-		void SetOpponentParticles(const bool in_magmaUsed, const bool in_iceCreamUsed);
-		//------------------------------------------------------------
-		/// Sets the ball particles that were chosen by the user
-		/// in m_particlesChosen.
-		///
-		/// @author Angela Gross
-		///
-		/// @param Whether or not the smoke particles will be added
-		/// @param Whether or not the beam particles will be added
-		//------------------------------------------------------------
-		void SetBallParticles(const bool in_smokeUsed, const bool in_beamUsed);
+		void AssignBallParticles(ParticleType* in_particles, const s32 in_numParticles);
 
 	private:
 		//----------------------------------------------------------
@@ -202,12 +156,7 @@ namespace CSPong
 		//----------------------------------------------------------
 		ParticleEffectComponentFactory();
 
-		const int k_playerParticlesIx = 0;
-		const int k_opponentParticlesIx = 2;
-		const int k_ballParticlesIx = 4;
-		const static ParticleEffectComponentFactory::ParticleType k_gameParticles[];
-		bool m_particlesChosen[6];
-
+		std::vector<ParticleType> m_ballParticleTypes;
 		std::vector<CSCore::EventConnectionSPtr> m_collisionConnections;
 	};
 }
