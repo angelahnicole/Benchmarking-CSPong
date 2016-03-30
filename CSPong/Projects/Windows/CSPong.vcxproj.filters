@@ -7,20 +7,11 @@
     <Filter Include="Game">
       <UniqueIdentifier>{081a46ee-fd24-422a-a656-82de8be5796f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MainMenu">
-      <UniqueIdentifier>{91918317-588f-4854-98dd-5558a6d88c0e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Splash">
-      <UniqueIdentifier>{93c54757-727b-4611-b56f-98c888b89292}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Ball">
       <UniqueIdentifier>{95c51f7d-f9ea-40f2-9486-7075b4aaf2d8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\Camera">
       <UniqueIdentifier>{83df2793-1dd3-4a7a-bc11-84014c934d02}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Paddle">
-      <UniqueIdentifier>{2b89c968-640b-46cc-94eb-1358b61f4c42}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\Physics">
       <UniqueIdentifier>{85b82100-04ae-4c70-8239-2dfb3240a4af}</UniqueIdentifier>
@@ -40,9 +31,6 @@
     <ClCompile Include="..\..\AppSource\Game\GameState.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\AppSource\Game\GoalCeremonySystem.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\AppSource\Game\ScoringSystem.cpp">
       <Filter>Game</Filter>
     </ClCompile>
@@ -51,12 +39,6 @@
     </ClCompile>
     <ClCompile Include="..\..\AppSource\Game\Camera\CameraTiltComponent.cpp">
       <Filter>Game\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\AppSource\Game\Paddle\AIControllerComponent.cpp">
-      <Filter>Game\Paddle</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\AppSource\Game\Paddle\TouchControllerComponent.cpp">
-      <Filter>Game\Paddle</Filter>
     </ClCompile>
     <ClCompile Include="..\..\AppSource\Game\Physics\DynamicBodyComponent.cpp">
       <Filter>Game\Physics</Filter>
@@ -69,12 +51,6 @@
     </ClCompile>
     <ClCompile Include="..\..\AppSource\Game\Physics\TriggerComponent.cpp">
       <Filter>Game\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\AppSource\MainMenu\MainMenuState.cpp">
-      <Filter>MainMenu</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\AppSource\Splash\SplashState.cpp">
-      <Filter>Splash</Filter>
     </ClCompile>
     <ClCompile Include="..\..\AppSource\Game\Particles\ParticleEffectComponentFactory.cpp">
       <Filter>Game\Particles</Filter>
@@ -92,9 +68,6 @@
     <ClInclude Include="..\..\AppSource\Game\GameState.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\AppSource\Game\GoalCeremonySystem.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\AppSource\Game\ScoringSystem.h">
       <Filter>Game</Filter>
     </ClInclude>
@@ -103,12 +76,6 @@
     </ClInclude>
     <ClInclude Include="..\..\AppSource\Game\Camera\CameraTiltComponent.h">
       <Filter>Game\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\AppSource\Game\Paddle\AIControllerComponent.h">
-      <Filter>Game\Paddle</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\AppSource\Game\Paddle\TouchControllerComponent.h">
-      <Filter>Game\Paddle</Filter>
     </ClInclude>
     <ClInclude Include="..\..\AppSource\Game\Physics\DynamicBodyComponent.h">
       <Filter>Game\Physics</Filter>
@@ -121,12 +88,6 @@
     </ClInclude>
     <ClInclude Include="..\..\AppSource\Game\Physics\TriggerComponent.h">
       <Filter>Game\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\AppSource\MainMenu\MainMenuState.h">
-      <Filter>MainMenu</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\AppSource\Splash\SplashState.h">
-      <Filter>Splash</Filter>
     </ClInclude>
     <ClInclude Include="..\..\AppSource\Game\Particles\ParticleEffectComponentFactory.h">
       <Filter>Game\Particles</Filter>

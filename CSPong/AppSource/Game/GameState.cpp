@@ -30,11 +30,8 @@
 
 #include <Common/TransitionSystem.h>
 #include <Game/GameEntityFactory.h>
-#include <Game/GoalCeremonySystem.h>
 #include <Game/Ball/BallControllerComponent.h>
-#include <Game/Paddle/AIControllerComponent.h>
 #include <Game/Physics/PhysicsSystem.h>
-#include <MainMenu/MainMenuState.h>
 
 #include <ChilliSource/Core/Base.h>
 #include <ChilliSource/Core/Delegate.h>
@@ -55,7 +52,6 @@ namespace CSPong
         m_transitionSystem = CreateSystem<TransitionSystem>(1.0f, 1.0f);
         m_physicsSystem = CreateSystem<PhysicsSystem>();
         m_scoringSystem = CreateSystem<ScoringSystem>();
-        m_goalCeremonySystem = CreateSystem<GoalCeremonySystem>();
         m_gameEntityFactory = CreateSystem<GameEntityFactory>(m_physicsSystem, m_scoringSystem);
     }
     //------------------------------------------------------------
@@ -79,14 +75,8 @@ namespace CSPong
         m_ball = m_gameEntityFactory->CreateBall();
         GetScene()->Add(m_ball);
         
-        CSCore::EntitySPtr playerPaddle = m_gameEntityFactory->CreatePlayerPaddle(camera);
-        GetScene()->Add(playerPaddle);
-        
-        m_oppositionPaddle = m_gameEntityFactory->CreateOppositionPaddle(m_ball);  
-        GetScene()->Add(m_oppositionPaddle);
-        
         m_scoreChangedConnection = m_scoringSystem->GetScoreChangedEvent().OpenConnection(CSCore::MakeDelegate(this, &GameState::OnGoalScored));
-        
+
         m_transitionInConnection = m_transitionSystem->GetTransitionInFinishedEvent().OpenConnection([=]()
         {
             m_ball->GetComponent<BallControllerComponent>()->Activate();
@@ -96,33 +86,21 @@ namespace CSPong
     //------------------------------------------------------------
     void GameState::OnGoalScored(const ScoringSystem::Scores& in_scores)
     {
-        BallControllerComponentSPtr ballController = m_ball->GetComponent<BallControllerComponent>();
+        /*BallControllerComponentSPtr ballController = m_ball->GetComponent<BallControllerComponent>();
         ballController->Deactivate();
         
-        AIControllerComponentSPtr aiController = m_oppositionPaddle->GetComponent<AIControllerComponent>();
-        aiController->Reset();
-        
-        if(in_scores[0] >= k_targetScore)
+        /*if(in_scores[0] >= k_targetScore)
         {
-            m_goalCeremonySystem->PlayWin([=]()
-            {
-                m_transitionSystem->Transition(CSCore::StateSPtr(new MainMenuState()));
-            });
+            
         }
         else if(in_scores[1] >= k_targetScore)
         {
-            m_goalCeremonySystem->PlayLose([=]()
-            {
-                m_transitionSystem->Transition(CSCore::StateSPtr(new MainMenuState()));
-            });
+            
         }
         else
         {
-            m_goalCeremonySystem->PlayGoal([ballController]()
-            {
-                ballController->Activate();
-            });
-        }
+            
+        }*/
     }
     //------------------------------------------------------------
     //------------------------------------------------------------
@@ -154,9 +132,6 @@ namespace CSPong
 			{
 				CS_LOG_VERBOSE("PROFILING OUTPUT: Saved profile file to SaveData/Profile/cspong_profile.txt");
 			}
-
-			
-
 		}
 		else
 		{

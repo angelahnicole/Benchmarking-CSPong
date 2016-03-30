@@ -33,12 +33,10 @@
 
 namespace CSPong
 {
-    CS_FORWARDDECLARE_CLASS(AIControllerComponent);
     CS_FORWARDDECLARE_CLASS(BallControllerComponent);
     CS_FORWARDDECLARE_CLASS(CameraTiltComponent);
     CS_FORWARDDECLARE_CLASS(DynamicBodyComponent);
     CS_FORWARDDECLARE_CLASS(GameEntityFactory);
-    CS_FORWARDDECLARE_CLASS(GoalCeremonySystem);
     CS_FORWARDDECLARE_CLASS(PhysicsSystem);
     CS_FORWARDDECLARE_CLASS(ScoringSystem);
     CS_FORWARDDECLARE_CLASS(StaticBodyComponent);

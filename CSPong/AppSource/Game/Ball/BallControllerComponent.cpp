@@ -67,22 +67,11 @@ namespace CSPong
         if (m_active == false)
         {
             m_active = true;
-            
-            //Pick a random direction to start the ball
-            f32 angleLimitMin = (CSCore::MathUtils::k_pi) * 0.25f;
-            f32 angleLimitMax = (CSCore::MathUtils::k_pi) * 0.75f;
-            m_currentDirection.x = std::sin(CSCore::Random::Generate(angleLimitMin, angleLimitMax));
-            m_currentDirection.y = std::cos(CSCore::Random::Generate(angleLimitMin, angleLimitMax));
-            
-            if(CSCore::Random::GenerateNormalised<f32>() > 0.5f)
-            {
-                m_currentDirection.x = -m_currentDirection.x;
-            }
-            
-            if(CSCore::Random::GenerateNormalised<f32>() > 0.5f)
-            {
-                m_currentDirection.y = -m_currentDirection.y;
-            }
+
+			//Always go at angle 3pi/4 (bottom right corner)
+			f32 angle = (CSCore::MathUtils::k_pi * 0.75);
+			m_currentDirection.x = std::sin(angle);
+			m_currentDirection.y = std::cos(angle);
             
             m_dynamicBodyComponent->ApplyImpulse(m_currentDirection * k_initialImpulse);
         }
@@ -105,7 +94,7 @@ namespace CSPong
     //----------------------------------------------------
     void BallControllerComponent::OnCollision(const CSCore::Vector2& in_direction, CSCore::Entity* in_collidedWith)
     {
-        m_currentDirection -= 2.0f * in_direction * CSCore::Vector2::DotProduct(m_currentDirection, in_direction);
-        m_dynamicBodyComponent->ApplyImpulse(m_currentDirection * k_collisionImpulse);
+        m_currentDirection -= in_direction * CSCore::Vector2::DotProduct(m_currentDirection, in_direction);
+        m_dynamicBodyComponent->ApplyImpulse(m_currentDirection * k_collisionImpulse); //constant velocity
     }
 }

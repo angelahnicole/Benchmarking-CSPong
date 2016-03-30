@@ -31,8 +31,6 @@
 #include <Game/ScoringSystem.h>
 #include <Game/Ball/BallControllerComponent.h>
 #include <Game/Camera/CameraTiltComponent.h>
-#include <Game/Paddle/AIControllerComponent.h>
-#include <Game/Paddle/TouchControllerComponent.h>
 #include <Game/Physics/DynamicBodyComponent.h>
 #include <Game/Physics/StaticBodyComponent.h>
 #include <Game/Physics/TriggerComponent.h>
@@ -164,68 +162,6 @@ namespace CSPong
     }
     //------------------------------------------------------------
     //------------------------------------------------------------
-    CSCore::EntitySPtr GameEntityFactory::CreatePlayerPaddle(const CSCore::EntitySPtr& in_camera) const
-    {
-        CSCore::EntitySPtr paddle(CSCore::Entity::Create());
-        
-        auto renderFactory = CSCore::Application::Get()->GetSystem<CSRendering::RenderComponentFactory>();
-        auto resourcePool = CSCore::Application::Get()->GetResourcePool();
-        
-        CSRendering::MeshCSPtr mesh = resourcePool->LoadResource<CSRendering::Mesh>(CSCore::StorageLocation::k_package, "Models/Paddle/PaddleLeft.csmodel");
-        CSRendering::MaterialCSPtr material = resourcePool->LoadResource<CSRendering::Material>(CSCore::StorageLocation::k_package, "Materials/Models/Models.csmaterial");
-        
-        CSRendering::StaticMeshComponentSPtr meshComponent = renderFactory->CreateStaticMeshComponent(mesh, material);
-        paddle->AddComponent(meshComponent);
-        
-        CSCore::Vector2 collisionSize = mesh->GetAABB().GetSize().XY();
-        DynamicBodyComponentSPtr dynamicBody(new DynamicBodyComponent(m_physicsSystem, collisionSize, 100.0f, 0.2f, 0.6f));
-        paddle->AddComponent(dynamicBody);
-        
-        TouchControllerComponentSPtr touchComponent(new TouchControllerComponent(dynamicBody, in_camera->GetComponent<CSRendering::CameraComponent>()));
-        paddle->AddComponent(touchComponent);
-        
-        CSRendering::MeshCSPtr arenaMesh = resourcePool->LoadResource<CSRendering::Mesh>(CSCore::StorageLocation::k_package, "Models/Arena.csmodel");
-        f32 offsetX = arenaMesh->GetAABB().GetSize().x * -k_paddlePercentageOffsetFromCentre;
-        paddle->GetTransform().SetPosition(offsetX, 0.0f, 0.0f);
-
-		auto particleECFSystem = CSCore::Application::Get()->GetSystem<ParticleEffectComponentFactory>();
-		particleECFSystem->AddPlayerParticlesOnCollision(paddle, dynamicBody->GetCollisionEvent());
-        
-        return paddle;
-    }
-    //------------------------------------------------------------
-    //------------------------------------------------------------
-    CSCore::EntitySPtr GameEntityFactory::CreateOppositionPaddle(const CSCore::EntitySPtr& in_ball) const
-    {
-        CSCore::EntitySPtr paddle(CSCore::Entity::Create());
-        
-        auto renderFactory = CSCore::Application::Get()->GetSystem<CSRendering::RenderComponentFactory>();
-        auto resourcePool = CSCore::Application::Get()->GetResourcePool();
-        
-        CSRendering::MeshCSPtr mesh = resourcePool->LoadResource<CSRendering::Mesh>(CSCore::StorageLocation::k_package, "Models/Paddle/PaddleRight.csmodel");
-        CSRendering::MaterialCSPtr material = resourcePool->LoadResource<CSRendering::Material>(CSCore::StorageLocation::k_package, "Materials/Models/Models.csmaterial");
-        
-        CSRendering::StaticMeshComponentSPtr meshComponent = renderFactory->CreateStaticMeshComponent(mesh, material);
-        paddle->AddComponent(meshComponent);
-        
-        CSCore::Vector2 collisionSize = mesh->GetAABB().GetSize().XY();
-        DynamicBodyComponentSPtr dynamicBody(new DynamicBodyComponent(m_physicsSystem, collisionSize, 100.0f, 0.2f, 0.6f));
-        paddle->AddComponent(dynamicBody);
-        
-        AIControllerComponentSPtr aiComponent(new AIControllerComponent(dynamicBody, in_ball));
-        paddle->AddComponent(aiComponent);
-        
-        CSRendering::MeshCSPtr arenaMesh = resourcePool->LoadResource<CSRendering::Mesh>(CSCore::StorageLocation::k_package, "Models/Arena.csmodel");
-        f32 offsetX = arenaMesh->GetAABB().GetSize().x * k_paddlePercentageOffsetFromCentre;
-        paddle->GetTransform().SetPosition(offsetX, 0.0f, 0.0f);
-
-		auto particleECFSystem = CSCore::Application::Get()->GetSystem<ParticleEffectComponentFactory>();
-		particleECFSystem->AddOpponentParticlesOnCollision(paddle, dynamicBody->GetCollisionEvent());
-		
-        return paddle;
-    }
-    //------------------------------------------------------------
-    //------------------------------------------------------------
     CSCore::EntityUPtr GameEntityFactory::CreateArena() const
     {
         CSCore::EntityUPtr arena(CSCore::Entity::Create());
@@ -237,7 +173,7 @@ namespace CSPong
         CSRendering::MaterialCSPtr material = resourcePool->LoadResource<CSRendering::Material>(CSCore::StorageLocation::k_package, "Materials/Models/Models.csmaterial");
         
         const f32 k_border = 1.0f;
-        const CSCore::Vector2 k_arenaDimensions(mesh->GetAABB().GetSize().XY() * 0.9f);
+        const CSCore::Vector2 k_arenaDimensions(mesh->GetAABB().GetSize().XY() * 0.95f);
         
         CSRendering::StaticMeshComponentSPtr meshComponent = renderFactory->CreateStaticMeshComponent(mesh, material);
         meshComponent->SetShadowCastingEnabled(false);
@@ -257,14 +193,18 @@ namespace CSPong
         
         CSCore::EntitySPtr leftEdge(CSCore::Entity::Create());
         leftEdge->GetTransform().SetPosition(CSCore::Vector3(-k_arenaDimensions.x * 0.5f - k_border * 0.5f, 0.0f, 0.0f));
-        TriggerComponentSPtr leftEdgeTrigger(new TriggerComponent(m_physicsSystem, CSCore::Vector2(k_border, k_arenaDimensions.y)));
+		StaticBodyComponentSPtr leftEdgeStaticBody(new StaticBodyComponent(m_physicsSystem, CSCore::Vector2(k_border, k_arenaDimensions.y + k_border * 2.0f)));
+        TriggerComponentSPtr leftEdgeTrigger(new TriggerComponent(m_physicsSystem, CSCore::Vector2(k_border * 2.0f, k_arenaDimensions.y)));
+		leftEdge->AddComponent(leftEdgeStaticBody);
         leftEdge->AddComponent(leftEdgeTrigger);
         arena->AddEntity(leftEdge);
         
         CSCore::EntitySPtr rightEdge(CSCore::Entity::Create());
         rightEdge->GetTransform().SetPosition(CSCore::Vector3(k_arenaDimensions.x * 0.5f + k_border * 0.5f, 0.0f, 0.0f));
-        TriggerComponentSPtr rightEdgeTrigger(new TriggerComponent(m_physicsSystem, CSCore::Vector2(k_border, k_arenaDimensions.y)));
-        rightEdge->AddComponent(rightEdgeTrigger);
+		StaticBodyComponentSPtr rightEdgeStaticBody(new StaticBodyComponent(m_physicsSystem, CSCore::Vector2(k_border, k_arenaDimensions.y + k_border * 2.0f)));
+        TriggerComponentSPtr rightEdgeTrigger(new TriggerComponent(m_physicsSystem, CSCore::Vector2(k_border * 2.0f, k_arenaDimensions.y)));
+		rightEdge->AddComponent(rightEdgeStaticBody);
+		rightEdge->AddComponent(rightEdgeTrigger);
         arena->AddEntity(rightEdge);
         
         m_scoringSystem->AddGoalTrigger(leftEdge, 1);

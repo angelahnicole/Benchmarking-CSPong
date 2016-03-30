@@ -107,32 +107,6 @@ namespace CSPong
         //------------------------------------------------------------
         CSCore::EntitySPtr CreateBall() const;
         //------------------------------------------------------------
-        /// Create the player paddle. This has components for displaying
-        /// the paddle and allowing the player to move it via the
-        /// user input
-        ///
-        /// @author S Downie
-        ///
-        /// @param Camera used for movement
-        ///
-        /// @return Paddle entity (NOTE: It returns a unique ptr which
-        /// tells the caller that they take ownership)
-        //------------------------------------------------------------
-        CSCore::EntitySPtr CreatePlayerPaddle(const CSCore::EntitySPtr& in_camera) const;
-        //------------------------------------------------------------
-        /// Create the oppositions paddle. This has components for displaying
-        /// the paddle and AI logic that allows the paddle to move
-        /// autonomously
-        ///
-        /// @author S Downie
-        ///
-        /// @param Ball to chase
-        ///
-        /// @return Paddle entity (NOTE: It returns a unique ptr which
-        /// tells the caller that they take ownership)
-        //------------------------------------------------------------
-        CSCore::EntitySPtr CreateOppositionPaddle(const CSCore::EntitySPtr& in_ball) const;
-        //------------------------------------------------------------
         /// Creates the arean. This contains a component for displaying
         /// the stage and child entities representing the edges of the
         /// stage. The top and bottom edge child entities have static

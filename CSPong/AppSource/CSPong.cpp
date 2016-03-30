@@ -28,7 +28,7 @@
 
 #include <CSPong.h>
 
-#include <Splash/SplashState.h>
+#include <Game/GameState.h>
 #include <Game/Particles/ParticleEffectComponentFactory.h>
 
 #include <ChilliSource/Input/Accelerometer.h>
@@ -78,7 +78,7 @@ namespace CSPong
     void App::PushInitialState()
     {
 
-        GetStateManager()->Push(CSCore::StateSPtr(new SplashState()));
+        GetStateManager()->Push(CSCore::StateSPtr(new GameState()));
     }
     //---------------------------------------------------------
     //---------------------------------------------------------

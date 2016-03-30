@@ -25,17 +25,12 @@
     <ClCompile Include="..\..\AppSource\Game\Camera\CameraTiltComponent.cpp" />
     <ClCompile Include="..\..\AppSource\Game\GameEntityFactory.cpp" />
     <ClCompile Include="..\..\AppSource\Game\GameState.cpp" />
-    <ClCompile Include="..\..\AppSource\Game\GoalCeremonySystem.cpp" />
-    <ClCompile Include="..\..\AppSource\Game\Paddle\AIControllerComponent.cpp" />
-    <ClCompile Include="..\..\AppSource\Game\Paddle\TouchControllerComponent.cpp" />
     <ClCompile Include="..\..\AppSource\Game\Particles\ParticleEffectComponentFactory.cpp" />
     <ClCompile Include="..\..\AppSource\Game\Physics\DynamicBodyComponent.cpp" />
     <ClCompile Include="..\..\AppSource\Game\Physics\PhysicsSystem.cpp" />
     <ClCompile Include="..\..\AppSource\Game\Physics\StaticBodyComponent.cpp" />
     <ClCompile Include="..\..\AppSource\Game\Physics\TriggerComponent.cpp" />
     <ClCompile Include="..\..\AppSource\Game\ScoringSystem.cpp" />
-    <ClCompile Include="..\..\AppSource\MainMenu\MainMenuState.cpp" />
-    <ClCompile Include="..\..\AppSource\Splash\SplashState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\AppSource\Common\TransitionSystem.h" />
@@ -45,17 +40,12 @@
     <ClInclude Include="..\..\AppSource\Game\Camera\CameraTiltComponent.h" />
     <ClInclude Include="..\..\AppSource\Game\GameEntityFactory.h" />
     <ClInclude Include="..\..\AppSource\Game\GameState.h" />
-    <ClInclude Include="..\..\AppSource\Game\GoalCeremonySystem.h" />
-    <ClInclude Include="..\..\AppSource\Game\Paddle\AIControllerComponent.h" />
-    <ClInclude Include="..\..\AppSource\Game\Paddle\TouchControllerComponent.h" />
     <ClInclude Include="..\..\AppSource\Game\Particles\ParticleEffectComponentFactory.h" />
     <ClInclude Include="..\..\AppSource\Game\Physics\DynamicBodyComponent.h" />
     <ClInclude Include="..\..\AppSource\Game\Physics\PhysicsSystem.h" />
     <ClInclude Include="..\..\AppSource\Game\Physics\StaticBodyComponent.h" />
     <ClInclude Include="..\..\AppSource\Game\Physics\TriggerComponent.h" />
     <ClInclude Include="..\..\AppSource\Game\ScoringSystem.h" />
-    <ClInclude Include="..\..\AppSource\MainMenu\MainMenuState.h" />
-    <ClInclude Include="..\..\AppSource\Splash\SplashState.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{29AA6F17-26E4-48A0-95B4-8945F33A71A1}</ProjectGuid>

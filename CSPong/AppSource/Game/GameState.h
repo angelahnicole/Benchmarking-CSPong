@@ -89,7 +89,6 @@ namespace CSPong
         TransitionSystem* m_transitionSystem;
         PhysicsSystem* m_physicsSystem;
         ScoringSystem* m_scoringSystem;
-        GoalCeremonySystem* m_goalCeremonySystem;
         GameEntityFactory* m_gameEntityFactory;
     };
 }
