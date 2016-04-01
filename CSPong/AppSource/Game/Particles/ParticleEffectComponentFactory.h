@@ -59,13 +59,8 @@ namespace CSPong
 		//------------------------------------------------------------
 		enum class ParticleType
 		{
-			k_blueMagmaBurst,
-			k_yellowMagmaBurst,
 			k_blueIceCreamBurst,
-			k_pinkIceCreamBurst,
-			k_beamStream,
 			k_smokeStream,
-			k_sparksStream
 		};
 
 		//------------------------------------------------------------
