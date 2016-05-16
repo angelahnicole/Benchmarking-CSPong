@@ -30,6 +30,7 @@
 #define _APPSOURCE_CSPONG_H_
 
 #include <ChilliSource/Core/Base.h>
+#include <ForwardDeclarations.h>
 
 namespace CSPong
 {
@@ -68,6 +69,10 @@ namespace CSPong
         /// @author S Downie
         //---------------------------------------------------------
         void OnDestroy() override;
+
+	private:
+		std::vector<ParticleType> m_particleTypes;
+		CSCore::EventConnectionUPtr m_metricsTimerStoppedConnection;
     };
 }
 

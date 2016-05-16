@@ -33,6 +33,7 @@
 #include <Game/ScoringSystem.h>
 
 #include <ChilliSource/Core/State.h>
+#include <CSProfiling/ForwardDeclarations.h>
 
 namespace CSPong
 {
@@ -90,6 +91,7 @@ namespace CSPong
         PhysicsSystem* m_physicsSystem;
         ScoringSystem* m_scoringSystem;
         GameEntityFactory* m_gameEntityFactory;
+		CSProfiling::MetricsSystem* m_metricsSystem;
     };
 }
 

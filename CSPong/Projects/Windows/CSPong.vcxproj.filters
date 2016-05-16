@@ -21,7 +21,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\AppSource\CSPong.cpp" />
     <ClCompile Include="..\..\AppSource\Common\TransitionSystem.cpp">
       <Filter>Common</Filter>
     </ClCompile>
@@ -55,10 +54,12 @@
     <ClCompile Include="..\..\AppSource\Game\Particles\ParticleEffectComponentFactory.cpp">
       <Filter>Game\Particles</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\AppSource\CSPong.cpp" />
+    <ClCompile Include="..\..\AppSource\Game\Ball\BallStaticMeshComponent.cpp">
+      <Filter>Game\Ball</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\AppSource\CSPong.h" />
-    <ClInclude Include="..\..\AppSource\ForwardDeclarations.h" />
     <ClInclude Include="..\..\AppSource\Common\TransitionSystem.h">
       <Filter>Common</Filter>
     </ClInclude>
@@ -91,6 +92,11 @@
     </ClInclude>
     <ClInclude Include="..\..\AppSource\Game\Particles\ParticleEffectComponentFactory.h">
       <Filter>Game\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AppSource\CSPong.h" />
+    <ClInclude Include="..\..\AppSource\ForwardDeclarations.h" />
+    <ClInclude Include="..\..\AppSource\Game\Ball\BallStaticMeshComponent.h">
+      <Filter>Game\Ball</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

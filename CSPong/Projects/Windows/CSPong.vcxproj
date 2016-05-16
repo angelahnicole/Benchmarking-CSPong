@@ -22,6 +22,7 @@
     <ClCompile Include="..\..\AppSource\Common\TransitionSystem.cpp" />
     <ClCompile Include="..\..\AppSource\CSPong.cpp" />
     <ClCompile Include="..\..\AppSource\Game\Ball\BallControllerComponent.cpp" />
+    <ClCompile Include="..\..\AppSource\Game\Ball\BallStaticMeshComponent.cpp" />
     <ClCompile Include="..\..\AppSource\Game\Camera\CameraTiltComponent.cpp" />
     <ClCompile Include="..\..\AppSource\Game\GameEntityFactory.cpp" />
     <ClCompile Include="..\..\AppSource\Game\GameState.cpp" />
@@ -37,6 +38,7 @@
     <ClInclude Include="..\..\AppSource\CSPong.h" />
     <ClInclude Include="..\..\AppSource\ForwardDeclarations.h" />
     <ClInclude Include="..\..\AppSource\Game\Ball\BallControllerComponent.h" />
+    <ClInclude Include="..\..\AppSource\Game\Ball\BallStaticMeshComponent.h" />
     <ClInclude Include="..\..\AppSource\Game\Camera\CameraTiltComponent.h" />
     <ClInclude Include="..\..\AppSource\Game\GameEntityFactory.h" />
     <ClInclude Include="..\..\AppSource\Game\GameState.h" />

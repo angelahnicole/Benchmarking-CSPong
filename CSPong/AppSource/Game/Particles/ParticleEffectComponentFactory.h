@@ -38,6 +38,20 @@
 namespace CSPong
 {
 	//------------------------------------------------------------
+	/// An enum that describes the different types of particle 
+	/// effects that have been created for the game.
+	///
+	/// @author Angela Gross
+	//------------------------------------------------------------
+	enum class ParticleType
+	{
+		k_blueIceCreamBurst,
+		k_smokeStream,
+		k_smokeStreamBase,
+		k_smokeStreamTimes1000,
+	};
+
+	//------------------------------------------------------------
 	/// Creates different particle effects- instant/looping or on
 	/// collision. And, since it is an app system, these effects
 	/// will be able to be chosen during other game states.
@@ -50,18 +64,6 @@ namespace CSPong
 	public:
 
 		CS_DECLARE_NAMEDTYPE(ParticleEffectComponentFactory);
-
-		//------------------------------------------------------------
-		/// An enum that describes the different types of particle 
-		/// effects that have been created for the game.
-		///
-		/// @author Angela Gross
-		//------------------------------------------------------------
-		enum class ParticleType
-		{
-			k_blueIceCreamBurst,
-			k_smokeStream,
-		};
 
 		//------------------------------------------------------------
 		/// Creates a new instance of the system.
@@ -139,9 +141,9 @@ namespace CSPong
 		///
 		/// @author Angela Gross
 		///
-		/// @param Particle types to add to ball
+		/// @param in_particles
 		//------------------------------------------------------------
-		void AssignBallParticles(ParticleType* in_particles, const s32 in_numParticles);
+		void AssignBallParticles(std::initializer_list<ParticleType> in_particles);
 
 	private:
 		//----------------------------------------------------------

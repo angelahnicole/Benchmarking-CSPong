@@ -30,6 +30,7 @@
 
 #include <Game/ScoringSystem.h>
 #include <Game/Ball/BallControllerComponent.h>
+#include <Game/Ball/BallStaticMeshComponent.h>
 #include <Game/Camera/CameraTiltComponent.h>
 #include <Game/Physics/DynamicBodyComponent.h>
 #include <Game/Physics/StaticBodyComponent.h>
@@ -143,7 +144,8 @@ namespace CSPong
         CSCore::EntitySPtr ball(CSCore::Entity::Create());
         
         auto renderFactory = CSCore::Application::Get()->GetSystem<CSRendering::RenderComponentFactory>();
-        CSRendering::StaticMeshComponentSPtr meshComponent = renderFactory->CreateStaticMeshComponent(mesh, material);
+		BallStaticMeshComponentSPtr meshComponent(new BallStaticMeshComponent());
+		meshComponent->AttachMesh(mesh, material);
         ball->AddComponent(meshComponent);
         
         CSCore::Vector2 collisionSize = mesh->GetAABB().GetSize().XY();

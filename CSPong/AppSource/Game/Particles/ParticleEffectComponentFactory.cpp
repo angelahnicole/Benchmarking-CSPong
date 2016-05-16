@@ -109,8 +109,11 @@ namespace CSPong
 		case ParticleType::k_blueIceCreamBurst:
 			particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/BlueIceCreamBurst/Base.csparticle");
 			break;
-		case ParticleType::k_smokeStream:
-			particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/SmokeStream/Base.csparticle");
+		case ParticleType::k_smokeStreamBase:
+			particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/SmokeStream/Base_Transparent_NoCulling.csparticle");
+			break;
+		case ParticleType::k_smokeStreamTimes1000:
+			particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/SmokeStream/Times1000_Transparent_NoCulling.csparticle");
 			break;
 		default:
 			particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/SmokeStream/Base.csparticle");
@@ -141,9 +144,9 @@ namespace CSPong
 	}
 	//------------------------------------------------------------
 	//------------------------------------------------------------
-	void ParticleEffectComponentFactory::AssignBallParticles(ParticleType* in_particles, const s32 in_numParticles)
+	void ParticleEffectComponentFactory::AssignBallParticles(std::initializer_list<ParticleType> in_particles)
 	{
-		m_ballParticleTypes.assign(in_particles, in_particles + in_numParticles);
+		m_ballParticleTypes = in_particles;
 	}
 	
 }

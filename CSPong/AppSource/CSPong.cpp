@@ -30,6 +30,7 @@
 
 #include <Game/GameState.h>
 #include <Game/Particles/ParticleEffectComponentFactory.h>
+#include <CSProfiling/CSProfiling.h>
 
 #include <ChilliSource/Input/Accelerometer.h>
 #include <ChilliSource/Rendering/Model.h>
@@ -63,28 +64,67 @@ namespace CSPong
     //---------------------------------------------------------
     void App::CreateSystems()
     {
+		// particle types that will be used for every run set
+		m_particleTypes =
+		{
+			ParticleType::k_smokeStreamBase,
+			ParticleType::k_smokeStreamTimes1000
+		};
+		// number of particles emitted for each particle type above
+		std::initializer_list<u32> particlesEmittedList = { 10, 1000 };
+
         CreateSystem<CSRendering::CSModelProvider>();
         CreateSystem<CSRendering::CSAnimProvider>();
         CreateSystem<CSInput::Accelerometer>();
 		CreateSystem<ParticleEffectComponentFactory>();
+		CSProfiling::MetricsSystem* metricsSystem = CreateSystem<CSProfiling::MetricsSystem>(20, 5, particlesEmittedList); // maxRunNum, runTime, particlesEmittedList
+
+		// start off with the first particle type
+		GetSystem<ParticleEffectComponentFactory>()->AssignBallParticles({ m_particleTypes[0] });
+
+		// reset the game state and re-run the test
+		m_metricsTimerStoppedConnection = metricsSystem->GetTimerStoppedEvent().OpenConnection([=]()
+		{
+			// go to the next run within a particle
+			if (!metricsSystem->AreRunsOver())
+			{
+				GetStateManager()->Change(CSCore::StateSPtr(new GameState()));
+			}
+			else
+			{
+				// if we have gone through all runs for all particles, then quit
+				if (metricsSystem->AreAllRunsOver())
+				{
+					CSCore::Application::Get()->Quit();
+					exit(1);
+				}
+				// if we haven't, then increment the particle index and go to the first run
+				else
+				{
+					u32 particleIdx = metricsSystem->IncrementParticlesIdx();
+					CSCore::Application::Get()->GetSystem<ParticleEffectComponentFactory>()->AssignBallParticles({ m_particleTypes[particleIdx] });
+					GetStateManager()->Change(CSCore::StateSPtr(new GameState()));
+				}
+			}
+		});
     }
     //---------------------------------------------------------
     //---------------------------------------------------------
     void App::OnInit()
     {
+
     }
     //---------------------------------------------------------
     //---------------------------------------------------------
     void App::PushInitialState()
     {
-
         GetStateManager()->Push(CSCore::StateSPtr(new GameState()));
     }
     //---------------------------------------------------------
     //---------------------------------------------------------
     void App::OnDestroy()
     {
-		
+		m_metricsTimerStoppedConnection->Close();
     }
 }
 
