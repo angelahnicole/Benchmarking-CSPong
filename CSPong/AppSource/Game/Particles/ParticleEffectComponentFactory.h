@@ -48,6 +48,10 @@ namespace CSPong
 		k_blueIceCreamBurst,
 		k_smokeStream,
 		k_smokeStreamBase,
+        k_smokeStreamTimes10,
+        k_smokeStreamTimes50,
+        k_smokeStreamTimes100,
+        k_smokeStreamTimes500,
 		k_smokeStreamTimes1000,
 	};
 

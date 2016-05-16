@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		064AD72A1CD92D0C00B2D695 /* ParticleEffectComponentFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 064AD7281CD92D0C00B2D695 /* ParticleEffectComponentFactory.cpp */; };
+		06F45EAC1CEA5A5F002F017D /* BallStaticMeshComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 06F45EAA1CEA5A5F002F017D /* BallStaticMeshComponent.cpp */; };
 		815313611C8F48C500650A1B /* TransitionSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 815313391C8F48C500650A1B /* TransitionSystem.cpp */; };
 		815313621C8F48C500650A1B /* CSPong.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8153133B1C8F48C500650A1B /* CSPong.cpp */; };
 		815313631C8F48C500650A1B /* BallControllerComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 815313401C8F48C500650A1B /* BallControllerComponent.cpp */; };
@@ -69,6 +70,8 @@
 /* Begin PBXFileReference section */
 		064AD7281CD92D0C00B2D695 /* ParticleEffectComponentFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleEffectComponentFactory.cpp; sourceTree = "<group>"; };
 		064AD7291CD92D0C00B2D695 /* ParticleEffectComponentFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleEffectComponentFactory.h; sourceTree = "<group>"; };
+		06F45EAA1CEA5A5F002F017D /* BallStaticMeshComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BallStaticMeshComponent.cpp; sourceTree = "<group>"; };
+		06F45EAB1CEA5A5F002F017D /* BallStaticMeshComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BallStaticMeshComponent.h; sourceTree = "<group>"; };
 		815313391C8F48C500650A1B /* TransitionSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransitionSystem.cpp; sourceTree = "<group>"; };
 		8153133A1C8F48C500650A1B /* TransitionSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransitionSystem.h; sourceTree = "<group>"; };
 		8153133B1C8F48C500650A1B /* CSPong.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSPong.cpp; sourceTree = "<group>"; };
@@ -223,6 +226,8 @@
 		8153133F1C8F48C500650A1B /* Ball */ = {
 			isa = PBXGroup;
 			children = (
+				06F45EAA1CEA5A5F002F017D /* BallStaticMeshComponent.cpp */,
+				06F45EAB1CEA5A5F002F017D /* BallStaticMeshComponent.h */,
 				815313401C8F48C500650A1B /* BallControllerComponent.cpp */,
 				815313411C8F48C500650A1B /* BallControllerComponent.h */,
 			);
@@ -369,6 +374,7 @@
 				TargetAttributes = {
 					81C7FFE31C89E86400D306F9 = {
 						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = VVA8275PH9;
 					};
 				};
 			};
@@ -453,6 +459,7 @@
 				815313641C8F48C500650A1B /* CameraTiltComponent.cpp in Sources */,
 				815313631C8F48C500650A1B /* BallControllerComponent.cpp in Sources */,
 				815313621C8F48C500650A1B /* CSPong.cpp in Sources */,
+				06F45EAC1CEA5A5F002F017D /* BallStaticMeshComponent.cpp in Sources */,
 				8153136D1C8F48C500650A1B /* TriggerComponent.cpp in Sources */,
 				815313651C8F48C500650A1B /* GameEntityFactory.cpp in Sources */,
 			);
@@ -477,12 +484,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LegacyLaunchImages;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/ProjectResources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.taggames.cspong;
+				PRODUCT_BUNDLE_IDENTIFIER = com.uofm.cspong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -492,12 +502,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LegacyLaunchImages;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/ProjectResources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.taggames.cspong;
+				PRODUCT_BUNDLE_IDENTIFIER = com.uofm.cspong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

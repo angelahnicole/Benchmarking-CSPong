@@ -112,6 +112,18 @@ namespace CSPong
 		case ParticleType::k_smokeStreamBase:
 			particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/SmokeStream/Base_Transparent_NoCulling.csparticle");
 			break;
+        case ParticleType::k_smokeStreamTimes10:
+            particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/SmokeStream/Times10_Transparent_NoCulling.csparticle");
+            break;
+        case ParticleType::k_smokeStreamTimes50:
+            particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/SmokeStream/Times50_Transparent_NoCulling.csparticle");
+            break;
+        case ParticleType::k_smokeStreamTimes100:
+            particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/SmokeStream/Times100_Transparent_NoCulling.csparticle");
+            break;
+        case ParticleType::k_smokeStreamTimes500:
+            particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/SmokeStream/Times500_Transparent_NoCulling.csparticle");
+            break;
 		case ParticleType::k_smokeStreamTimes1000:
 			particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/SmokeStream/Times1000_Transparent_NoCulling.csparticle");
 			break;

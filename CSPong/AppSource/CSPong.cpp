@@ -68,16 +68,20 @@ namespace CSPong
 		m_particleTypes =
 		{
 			ParticleType::k_smokeStreamBase,
+            ParticleType::k_smokeStreamTimes10,
+            ParticleType::k_smokeStreamTimes50,
+            ParticleType::k_smokeStreamTimes100,
+            ParticleType::k_smokeStreamTimes500,
 			ParticleType::k_smokeStreamTimes1000
 		};
 		// number of particles emitted for each particle type above
-		std::initializer_list<u32> particlesEmittedList = { 10, 1000 };
+		std::initializer_list<u32> particlesEmittedList = { 10, 100, 500, 1000, 5000, 10000 };
 
         CreateSystem<CSRendering::CSModelProvider>();
         CreateSystem<CSRendering::CSAnimProvider>();
         CreateSystem<CSInput::Accelerometer>();
 		CreateSystem<ParticleEffectComponentFactory>();
-		CSProfiling::MetricsSystem* metricsSystem = CreateSystem<CSProfiling::MetricsSystem>(20, 5, particlesEmittedList); // maxRunNum, runTime, particlesEmittedList
+		CSProfiling::MetricsSystem* metricsSystem = CreateSystem<CSProfiling::MetricsSystem>(5, 5, particlesEmittedList); // maxRunNum, runTime, particlesEmittedList
 
 		// start off with the first particle type
 		GetSystem<ParticleEffectComponentFactory>()->AssignBallParticles({ m_particleTypes[0] });
