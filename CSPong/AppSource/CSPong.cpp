@@ -32,6 +32,8 @@
 #include <Game/Particles/ParticleEffectComponentFactory.h>
 #include <CSProfiling/CSProfiling.h>
 
+#include <ChilliSource/Core/String/StringUtils.h>
+#include <ChilliSource/Core/Container/ParamDictionary.h>
 #include <ChilliSource/Input/Accelerometer.h>
 #include <ChilliSource/Rendering/Model.h>
 
@@ -60,31 +62,39 @@ std::string GetGooglePlayLvlPublicKey()
 
 namespace CSPong
 {
+    namespace
+    {
+        const std::string k_numParticlesVarName = "numParticles";
+        const std::string k_generatedParticleFileName = "Particles/SmokeStream/Generated/[var=numParticles]_particles_emitted.csparticle";
+        const u32 maxRunNum = 5;
+        const u32 runTime = 5; // seconds
+        const u32 k_minParticles = 0;
+        const u32 k_maxParticles = 100;
+        const u32 k_particlesStep = 100;
+    }
+    
     //---------------------------------------------------------
     //---------------------------------------------------------
     void App::CreateSystems()
     {
-		// particle types that will be used for every run set
-		m_particleTypes =
-		{
-			ParticleType::k_smokeStreamBase,
-            ParticleType::k_smokeStreamTimes10,
-            ParticleType::k_smokeStreamTimes50,
-            ParticleType::k_smokeStreamTimes100,
-            ParticleType::k_smokeStreamTimes500,
-			ParticleType::k_smokeStreamTimes1000
-		};
-		// number of particles emitted for each particle type above
-		std::initializer_list<u32> particlesEmittedList = { 10, 100, 500, 1000, 5000, 10000 };
-
         CreateSystem<CSRendering::CSModelProvider>();
         CreateSystem<CSRendering::CSAnimProvider>();
         CreateSystem<CSInput::Accelerometer>();
 		CreateSystem<ParticleEffectComponentFactory>();
-		CSProfiling::MetricsSystem* metricsSystem = CreateSystem<CSProfiling::MetricsSystem>(5, 5, particlesEmittedList); // maxRunNum, runTime, particlesEmittedList
+		CSProfiling::MetricsSystem* metricsSystem = CreateSystem<CSProfiling::MetricsSystem>(maxRunNum, runTime, k_minParticles, k_maxParticles, k_particlesStep);
 
+        
+        // build path based on the first number of particles emitted, the min
+        std::string particlePath = CSCore::StringUtils::InsertVariables
+        (
+             k_generatedParticleFileName,
+             {
+                 std::make_pair(k_numParticlesVarName, std::to_string(k_minParticles))
+             }
+        );
+        
 		// start off with the first particle type
-		GetSystem<ParticleEffectComponentFactory>()->AssignBallParticles({ m_particleTypes[0] });
+        GetSystem<ParticleEffectComponentFactory>()->AssignBallParticleFileNames({particlePath});
 
 		// reset the game state and re-run the test
 		m_metricsTimerStoppedConnection = metricsSystem->GetTimerStoppedEvent().OpenConnection([=]()
@@ -102,11 +112,21 @@ namespace CSPong
 					CSCore::Application::Get()->Quit();
 					exit(1);
 				}
-				// if we haven't, then increment the particle index and go to the first run
+				// if we haven't, then increment the particles emitted and go to the first run
 				else
 				{
-					u32 particleIdx = metricsSystem->IncrementParticlesIdx();
-					CSCore::Application::Get()->GetSystem<ParticleEffectComponentFactory>()->AssignBallParticles({ m_particleTypes[particleIdx] });
+					u32 currentParticles = metricsSystem->IncrementParticles();
+                    
+                    // build path based on current particles emitted
+                    std::string particlePath = CSCore::StringUtils::InsertVariables
+                    (
+                        k_generatedParticleFileName,
+                        {
+                            std::make_pair(k_numParticlesVarName, std::to_string(currentParticles))
+                        }
+                    );
+                    
+					CSCore::Application::Get()->GetSystem<ParticleEffectComponentFactory>()->AssignBallParticleFileNames({particlePath});
 					GetStateManager()->Change(CSCore::StateSPtr(new GameState()));
 				}
 			}

@@ -24,12 +24,12 @@
 		"SizePolicy": "FitMaintainingAspect"
 	},
 	"Emitter": 
-		{
-			"Type": "Point",
-			"EmissionMode": "Stream",
-			"EmissionRateProperty": "2.0f",
-			"ParticlesPerEmissionProperty": "10"
-		},
+	{
+		"Type": "Point",
+		"EmissionMode": "Stream",
+		"EmissionRateProperty": "2.0f",
+		"ParticlesPerEmissionProperty": "10"
+	},
 	"Affectors": 
 	[
 		{

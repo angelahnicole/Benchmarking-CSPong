@@ -145,20 +145,57 @@ namespace CSPong
 
 		return particleComponent;
 	}
+    //----------------------------------------------------------
+    //----------------------------------------------------------
+    CSRendering::ParticleEffectComponentUPtr ParticleEffectComponentFactory::CreateParticleEffectComponent(const std::string in_particleFileName, const bool in_looping) const
+    {
+        auto resourcePool = CSCore::Application::Get()->GetResourcePool();
+        auto renderFactory = CSCore::Application::Get()->GetSystem<CSRendering::RenderComponentFactory>();
+        
+        CSRendering::ParticleEffectCSPtr particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, in_particleFileName);
+        CSRendering::ParticleEffectComponentUPtr particleComponent = renderFactory->CreateParticleEffectComponent(particleEffect);
+        
+        if (in_looping)
+        {
+            particleComponent->SetPlaybackType(CSRendering::ParticleEffectComponent::PlaybackType::k_looping);
+        }
+        else
+        {
+            particleComponent->SetPlaybackType(CSRendering::ParticleEffectComponent::PlaybackType::k_once);
+        }
+        
+        return particleComponent;
+    }
 	//------------------------------------------------------------
 	//------------------------------------------------------------
 	void ParticleEffectComponentFactory::AddBallParticles(CSCore::EntitySPtr in_ballEntity)
 	{
-		for (std::vector<ParticleType>::size_type i = 0; i != m_ballParticleTypes.size(); i++)
-		{
-			in_ballEntity->AddComponent( CreateParticleEffectComponent(m_ballParticleTypes[i], true) );
-		}
+        if(m_ballParticleTypes.size() > 0)
+        {
+            for (std::vector<ParticleType>::size_type i = 0; i != m_ballParticleTypes.size(); i++)
+            {
+                in_ballEntity->AddComponent( CreateParticleEffectComponent(m_ballParticleTypes[i], true) );
+            }
+        }
+        else if(m_ballParticleFileNames.size() > 0)
+        {
+            for(std::vector<std::string>::size_type i = 0; i != m_ballParticleFileNames.size(); i++)
+            {
+                in_ballEntity->AddComponent( CreateParticleEffectComponent(m_ballParticleFileNames[i], true) );
+            }
+        }
 	}
 	//------------------------------------------------------------
 	//------------------------------------------------------------
-	void ParticleEffectComponentFactory::AssignBallParticles(std::initializer_list<ParticleType> in_particles)
+	void ParticleEffectComponentFactory::AssignBallParticleTypes(std::initializer_list<ParticleType> in_particleTypes)
 	{
-		m_ballParticleTypes = in_particles;
+		m_ballParticleTypes = in_particleTypes;
 	}
+    //------------------------------------------------------------
+    //------------------------------------------------------------
+    void ParticleEffectComponentFactory::AssignBallParticleFileNames(std::initializer_list<std::string> in_particleFileNames)
+    {
+        m_ballParticleFileNames = in_particleFileNames;
+    }
 	
 }

@@ -112,6 +112,18 @@ namespace CSPong
 		/// @return The new particle effect component. 
 		//------------------------------------------------------------
 		CSRendering::ParticleEffectComponentUPtr CreateParticleEffectComponent(const ParticleType in_particleType, const bool in_looping) const;
+        //------------------------------------------------------------
+        /// Creates a particle effect component based on the given
+        /// particle definition file
+        ///
+        /// @author Angela Gross
+        ///
+        /// @param The file name of the CS particle definition
+        /// @param Whether or not the particle effect should loop.
+        ///
+        /// @return The new particle effect component.
+        //------------------------------------------------------------
+        CSRendering::ParticleEffectComponentUPtr CreateParticleEffectComponent(const std::string in_particleFileName, const bool in_looping) const;
 		//------------------------------------------------------------
 		/// Creates a particle effect component that will play when
 		/// the given collision event is triggered based on the given
@@ -145,9 +157,17 @@ namespace CSPong
 		///
 		/// @author Angela Gross
 		///
-		/// @param in_particles
+		/// @param in_particleTypes
 		//------------------------------------------------------------
-		void AssignBallParticles(std::initializer_list<ParticleType> in_particles);
+		void AssignBallParticleTypes(std::initializer_list<ParticleType> in_particleTypes);
+        //------------------------------------------------------------
+        /// Sets the ball particles
+        ///
+        /// @author Angela Gross
+        ///
+        /// @param in_particleFileName
+        //------------------------------------------------------------
+        void AssignBallParticleFileNames(std::initializer_list<std::string> in_particleFileNames);
 
 	private:
 		//----------------------------------------------------------
@@ -157,6 +177,7 @@ namespace CSPong
 		//----------------------------------------------------------
 		ParticleEffectComponentFactory();
 
+        std::vector<std::string> m_ballParticleFileNames;
 		std::vector<ParticleType> m_ballParticleTypes;
 		std::vector<CSCore::EventConnectionSPtr> m_collisionConnections;
 	};

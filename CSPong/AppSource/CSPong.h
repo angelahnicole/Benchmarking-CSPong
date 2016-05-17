@@ -71,7 +71,6 @@ namespace CSPong
         void OnDestroy() override;
 
 	private:
-		std::vector<ParticleType> m_particleTypes;
 		CSCore::EventConnectionUPtr m_metricsTimerStoppedConnection;
     };
 }
