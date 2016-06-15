@@ -69,8 +69,8 @@ namespace CSPong
         const u32 maxRunNum = 5;
         const u32 runTime = 5; // seconds
         const u32 k_minParticles = 0;
-        const u32 k_maxParticles = 100;
-        const u32 k_particlesStep = 100;
+        const u32 k_maxParticles = 1000;
+        const u32 k_particlesStep = 1000;
     }
     
     //---------------------------------------------------------
@@ -89,7 +89,7 @@ namespace CSPong
         (
              k_generatedParticleFileName,
              {
-                 std::make_pair(k_numParticlesVarName, std::to_string(k_minParticles))
+                 std::make_pair(k_numParticlesVarName, TO_STRING(k_minParticles))
              }
         );
         
@@ -122,7 +122,7 @@ namespace CSPong
                     (
                         k_generatedParticleFileName,
                         {
-                            std::make_pair(k_numParticlesVarName, std::to_string(currentParticles))
+                            std::make_pair(k_numParticlesVarName, TO_STRING(currentParticles))
                         }
                     );
                     
