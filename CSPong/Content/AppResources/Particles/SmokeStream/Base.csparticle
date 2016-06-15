@@ -1,44 +1,39 @@
- {
-	"Duration": "1.0",
-	"MaxParticles": "100000",
-	"SimulationSpace": "World",
-	"LifetimeProperty": 
-	{
-		"Type": "RandomConstant",
-		"LowerValue": "120.0",
-		"UpperValue": "340.0"
-	},
-	"ColourProperty": 
-	{
-		"Type": "Constant",
-		"Value": "0.0 0.0 0.0 1.0"
-	},
-	"InitialSpeedProperty": "1.0",	
-	"Drawable": 
-	{
-		"Type": "StaticBillboard",
-		"MaterialPath": "Materials/Particles/Particles.csmaterial",
-		"AtlasPath": "TextureAtlases/Particles/Particles.csatlas",
-		"ImageIds": "Smoke",
-		"ParticleSize": "5.0 5.0",
-		"SizePolicy": "FitMaintainingAspect"
-	},
-	"Emitter": 
-	{
-		"Type": "Point",
-		"EmissionMode": "Stream",
-		"EmissionRateProperty": "2.0f",
-		"ParticlesPerEmissionProperty": "10"
-	},
-	"Affectors": 
-	[
-		{
-			"Type": "ColourOverLifetime",
-			"TargetColourProperty": "0.59 0.89 1.0 0.1"
-		},
-		{
-			"Type": "ScaleOverLifetime",
-			"ScaleProperty": "0.2 0.2"
-		}
-	]
+{
+    "Affectors": [
+        {
+            "TargetColourProperty": "0.59 0.89 1.0 0.1", 
+            "Type": "ColourOverLifetime"
+        }, 
+        {
+            "ScaleProperty": "0.2 0.2", 
+            "Type": "ScaleOverLifetime"
+        }
+    ], 
+    "ColourProperty": {
+        "Type": "Constant", 
+        "Value": "0.0 0.0 0.0 1.0"
+    }, 
+    "Drawable": {
+        "AtlasPath": "TextureAtlases/Particles/Particles.csatlas", 
+        "ImageIds": "Smoke", 
+        "MaterialPath": "Materials/Particles/Particles.csmaterial", 
+        "ParticleSize": "5.0 5.0", 
+        "SizePolicy": "FitMaintainingAspect", 
+        "Type": "StaticBillboard"
+    }, 
+    "Duration": "1.0", 
+    "Emitter": {
+        "EmissionMode": "Stream", 
+        "EmissionRateProperty": "2.0f", 
+        "ParticlesPerEmissionProperty": "10", 
+        "Type": "Point"
+    }, 
+    "InitialSpeedProperty": "1.0", 
+    "LifetimeProperty": {
+        "LowerValue": "120.0", 
+        "Type": "RandomConstant", 
+        "UpperValue": "340.0"
+    }, 
+    "MaxParticles": "10000", 
+    "SimulationSpace": "World"
 }

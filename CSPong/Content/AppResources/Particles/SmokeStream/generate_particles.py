@@ -28,6 +28,7 @@ k_generatedParticlesDirectory = "Generated"
 k_minParticles = 0
 k_maxParticles = 1000
 k_particlesStep = 100
+k_totalParticles = 10000
 
 # //////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -66,7 +67,7 @@ def createParticleFile(in_particlesEmitted):
 
 	# write file
 	with open(newParticleFileName, 'w') as file:
-		json.dump(newParticleData, file, indent=4)
+		json.dump(newParticleData, file, indent=4, sort_keys=True)
 
 # //////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -81,6 +82,7 @@ if __name__ == "__main__":
 	argParser.add_argument('-min', default=0, type=int, help='The minimum particles emitted (non-negative number, default is 0)')
 	argParser.add_argument('-max', default=1000, type=int, help='The maximum particles emitted (non-negative number, default is 1000)')
 	argParser.add_argument('-step', default=100, type=int, help='The step between min and max particles emitted (default is 100)')
+	argParser.add_argument('-total', default=10000, type=int, help='The total maximum number of particles that can be on the screen, default is 10000')
 	argParser.add_argument('-dir', default='Generated', help='The output directory name (default is "Generated" and it will create it for you)')
 	args = vars(argParser.parse_args())
 
@@ -88,11 +90,19 @@ if __name__ == "__main__":
 	k_minParticles = args['min']
 	k_maxParticles = args['max']
 	k_particlesStep = args['step']
+	k_totalParticles = args['total']
 	k_generatedParticlesDirectory = args['dir']
 
 	# Get copy of base particle file
 	with open(k_mainParticleFileName, 'r') as file:
 		k_mainParticleData = json.load(file)
+	
+	# Update total maximum number of particles allowed
+	k_mainParticleData["MaxParticles"] = "%s" % k_totalParticles
+	
+	# Write the base file
+	with open(k_mainParticleFileName, 'w') as file:
+		json.dump(k_mainParticleData, file, indent=4, sort_keys=True)
 
 	# Created and clear generated particles directory
 	createParticlesDirectory()
