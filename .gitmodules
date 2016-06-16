@@ -1,0 +1,3 @@
+[submodule "CSPong/ChilliSource"]
+	path = CSPong/ChilliSource
+	url = git@bitbucket.org:Chilli-Ian/chillisource-ag.git
