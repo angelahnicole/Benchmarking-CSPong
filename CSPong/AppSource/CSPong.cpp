@@ -43,9 +43,9 @@
 ///
 /// @author S Downie
 ///
-/// @return Instance of CSCore::Application
+/// @return Instance of CS::Application
 //---------------------------------------------------------
-CSCore::Application* CreateApplication()
+CS::Application* CreateApplication()
 {
     return new CSPong::App();
 }
@@ -77,15 +77,15 @@ namespace CSPong
     //---------------------------------------------------------
     void App::CreateSystems()
     {
-        CreateSystem<CSRendering::CSModelProvider>();
-        CreateSystem<CSRendering::CSAnimProvider>();
-        CreateSystem<CSInput::Accelerometer>();
+        CreateSystem<CS::CSModelProvider>();
+        CreateSystem<CS::CSAnimProvider>();
+        CreateSystem<CS::Accelerometer>();
 		CreateSystem<ParticleEffectComponentFactory>();
 		CSProfiling::MetricsSystem* metricsSystem = CreateSystem<CSProfiling::MetricsSystem>(maxRunNum, runTime, k_minParticles, k_maxParticles, k_particlesStep);
 
         
         // build path based on the first number of particles emitted, the min
-        std::string particlePath = CSCore::StringUtils::InsertVariables
+        std::string particlePath = CS::StringUtils::InsertVariables
         (
              k_generatedParticleFileName,
              {
@@ -102,14 +102,14 @@ namespace CSPong
 			// go to the next run within a particle
 			if (!metricsSystem->AreRunsOver())
 			{
-				GetStateManager()->Change(CSCore::StateSPtr(new GameState()));
+				GetStateManager()->Change(CS::StateSPtr(new GameState()));
 			}
 			else
 			{
 				// if we have gone through all runs for all particles, then quit
 				if (metricsSystem->AreAllRunsOver())
 				{
-					CSCore::Application::Get()->Quit();
+					CS::Application::Get()->Quit();
 					exit(1);
 				}
 				// if we haven't, then increment the particles emitted and go to the first run
@@ -118,7 +118,7 @@ namespace CSPong
 					u32 currentParticles = metricsSystem->IncrementParticles();
                     
                     // build path based on current particles emitted
-                    std::string particlePath = CSCore::StringUtils::InsertVariables
+                    std::string particlePath = CS::StringUtils::InsertVariables
                     (
                         k_generatedParticleFileName,
                         {
@@ -126,8 +126,8 @@ namespace CSPong
                         }
                     );
                     
-					CSCore::Application::Get()->GetSystem<ParticleEffectComponentFactory>()->AssignBallParticleFileNames({particlePath});
-					GetStateManager()->Change(CSCore::StateSPtr(new GameState()));
+					CS::Application::Get()->GetSystem<ParticleEffectComponentFactory>()->AssignBallParticleFileNames({particlePath});
+					GetStateManager()->Change(CS::StateSPtr(new GameState()));
 				}
 			}
 		});
@@ -142,7 +142,7 @@ namespace CSPong
     //---------------------------------------------------------
     void App::PushInitialState()
     {
-        GetStateManager()->Push(CSCore::StateSPtr(new GameState()));
+        GetStateManager()->Push(CS::StateSPtr(new GameState()));
     }
     //---------------------------------------------------------
     //---------------------------------------------------------

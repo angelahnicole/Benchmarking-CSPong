@@ -62,7 +62,7 @@ namespace CSPong
 	///
 	/// @author Angela Gross
 	//------------------------------------------------------------
-	class ParticleEffectComponentFactory final : public CSCore::AppSystem
+	class ParticleEffectComponentFactory final : public CS::AppSystem
 	{
 
 	public:
@@ -91,7 +91,7 @@ namespace CSPong
 		///
 		/// @return Whether the class matches the comparison type
 		//------------------------------------------------------------
-		bool IsA(CSCore::InterfaceIDType in_interfaceId) const override;
+		bool IsA(CS::InterfaceIDType in_interfaceId) const override;
 		//------------------------------------------------------------
 		/// Manually resets collision connection pointers and clears
 		/// the collision connection vector.
@@ -111,7 +111,7 @@ namespace CSPong
 		///
 		/// @return The new particle effect component. 
 		//------------------------------------------------------------
-		CSRendering::ParticleEffectComponentUPtr CreateParticleEffectComponent(const ParticleType in_particleType, const bool in_looping) const;
+		CS::ParticleEffectComponentUPtr CreateParticleEffectComponent(const ParticleType in_particleType, const bool in_looping) const;
         //------------------------------------------------------------
         /// Creates a particle effect component based on the given
         /// particle definition file
@@ -123,7 +123,7 @@ namespace CSPong
         ///
         /// @return The new particle effect component.
         //------------------------------------------------------------
-        CSRendering::ParticleEffectComponentUPtr CreateParticleEffectComponent(const std::string in_particleFileName, const bool in_looping) const;
+        CS::ParticleEffectComponentUPtr CreateParticleEffectComponent(const std::string in_particleFileName, const bool in_looping) const;
 		//------------------------------------------------------------
 		/// Creates a particle effect component that will play when
 		/// the given collision event is triggered based on the given
@@ -141,7 +141,7 @@ namespace CSPong
 		///
 		/// @return The new particle effect component. 
 		//------------------------------------------------------------
-		CSRendering::ParticleEffectComponentSPtr CreateOnCollisionParticleEffectComponent(const ParticleType in_particleType, CSCore::IConnectableEvent<DynamicBodyComponent::CollisionDelegate>& in_collisionEvent);
+		CS::ParticleEffectComponentSPtr CreateOnCollisionParticleEffectComponent(const ParticleType in_particleType, CS::IConnectableEvent<DynamicBodyComponent::CollisionDelegate>& in_collisionEvent);
 		//------------------------------------------------------------
 		/// Creates and adds particle components to the ball entity
 		/// according to what particle types are in 
@@ -151,7 +151,7 @@ namespace CSPong
 		///
 		/// @param The entity that represents the ball
 		//------------------------------------------------------------
-		void AddBallParticles(CSCore::EntitySPtr in_ballEntity);
+		void AddBallParticles(CS::EntitySPtr in_ballEntity);
 		//------------------------------------------------------------
 		/// Sets the ball particles
 		///
@@ -179,7 +179,7 @@ namespace CSPong
 
         std::vector<std::string> m_ballParticleFileNames;
 		std::vector<ParticleType> m_ballParticleTypes;
-		std::vector<CSCore::EventConnectionSPtr> m_collisionConnections;
+		std::vector<CS::EventConnectionSPtr> m_collisionConnections;
 	};
 }
 

@@ -50,11 +50,11 @@ namespace CSPong
     {
         CS_ASSERT(m_dynamicBodyComponent != nullptr, "Must provide dynamic body for ball controller.");
         
-        m_collisionConnection = m_dynamicBodyComponent->GetCollisionEvent().OpenConnection(CSCore::MakeDelegate(this, &BallControllerComponent::OnCollision));
+        m_collisionConnection = m_dynamicBodyComponent->GetCollisionEvent().OpenConnection(CS::MakeDelegate(this, &BallControllerComponent::OnCollision));
     }
     //----------------------------------------------------------
     //----------------------------------------------------------
-    bool BallControllerComponent::IsA(CSCore::InterfaceIDType in_interfaceId) const
+    bool BallControllerComponent::IsA(CS::InterfaceIDType in_interfaceId) const
     {
         return in_interfaceId == BallControllerComponent::InterfaceID;
     }
@@ -69,7 +69,7 @@ namespace CSPong
             m_active = true;
 
 			//Always go at angle 3pi/4 (bottom right corner)
-			f32 angle = (CSCore::MathUtils::k_pi * 0.75);
+			f32 angle = (CS::MathUtils::k_pi * 0.75);
 			m_currentDirection.x = std::sin(angle);
 			m_currentDirection.y = std::cos(angle);
             
@@ -86,15 +86,15 @@ namespace CSPong
         {
             m_active = false;
             
-            GetEntity()->GetTransform().SetPosition(CSCore::Vector3::k_zero);
-            m_dynamicBodyComponent->SetVelocity(CSCore::Vector2());
+            GetEntity()->GetTransform().SetPosition(CS::Vector3::k_zero);
+            m_dynamicBodyComponent->SetVelocity(CS::Vector2());
         }
     }
     //----------------------------------------------------
     //----------------------------------------------------
-    void BallControllerComponent::OnCollision(const CSCore::Vector2& in_direction, CSCore::Entity* in_collidedWith)
+    void BallControllerComponent::OnCollision(const CS::Vector2& in_direction, CS::Entity* in_collidedWith)
     {
-        m_currentDirection -= in_direction * CSCore::Vector2::DotProduct(m_currentDirection, in_direction);
+        m_currentDirection -= in_direction * CS::Vector2::DotProduct(m_currentDirection, in_direction);
         m_dynamicBodyComponent->ApplyImpulse(m_currentDirection * k_collisionImpulse); //constant velocity
     }
 }

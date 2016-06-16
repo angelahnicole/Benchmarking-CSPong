@@ -57,7 +57,7 @@ namespace CSPong
 	//----------------------------------------------------------
 	/// Is A
 	//----------------------------------------------------------
-	bool BallStaticMeshComponent::IsA(CSCore::InterfaceIDType inInterfaceID) const
+	bool BallStaticMeshComponent::IsA(CS::InterfaceIDType inInterfaceID) const
 	{
 		return  (inInterfaceID == BallStaticMeshComponent::InterfaceID) ||
 			(inInterfaceID == RenderComponent::InterfaceID) ||
@@ -66,25 +66,25 @@ namespace CSPong
 	//----------------------------------------------------
 	/// Get Axis Aligned Bounding Box
 	//----------------------------------------------------
-	const CSCore::AABB& BallStaticMeshComponent::GetAABB()
+	const CS::AABB& BallStaticMeshComponent::GetAABB()
 	{
 		if (GetEntity() && !m_isAABBValid)
 		{
 			m_isAABBValid = true;
 
 			//Rebuild the box
-			const CSCore::AABB& cAABB = mpModel->GetAABB();
-			const CSCore::Matrix4& matWorld = GetEntity()->GetTransform().GetWorldTransform();
-			CSCore::Vector3 vBackBottomLeft(cAABB.BackBottomLeft() * matWorld);
-			CSCore::Vector3 vBackBottomRight(cAABB.BackBottomRight() * matWorld);
-			CSCore::Vector3 vBackTopLeft(cAABB.BackTopLeft() * matWorld);
-			CSCore::Vector3 vBackTopRight(cAABB.BackTopRight() * matWorld);
-			CSCore::Vector3 vFrontBottomLeft(cAABB.FrontBottomLeft() * matWorld);
-			CSCore::Vector3 vFrontBottomRight(cAABB.FrontBottomRight() * matWorld);
-			CSCore::Vector3 vFrontTopLeft(cAABB.FrontTopLeft() *matWorld);
-			CSCore::Vector3 vFrontTopRight(cAABB.FrontTopRight() * matWorld);
+			const CS::AABB& cAABB = mpModel->GetAABB();
+			const CS::Matrix4& matWorld = GetEntity()->GetTransform().GetWorldTransform();
+			CS::Vector3 vBackBottomLeft(cAABB.BackBottomLeft() * matWorld);
+			CS::Vector3 vBackBottomRight(cAABB.BackBottomRight() * matWorld);
+			CS::Vector3 vBackTopLeft(cAABB.BackTopLeft() * matWorld);
+			CS::Vector3 vBackTopRight(cAABB.BackTopRight() * matWorld);
+			CS::Vector3 vFrontBottomLeft(cAABB.FrontBottomLeft() * matWorld);
+			CS::Vector3 vFrontBottomRight(cAABB.FrontBottomRight() * matWorld);
+			CS::Vector3 vFrontTopLeft(cAABB.FrontTopLeft() *matWorld);
+			CS::Vector3 vFrontTopRight(cAABB.FrontTopRight() * matWorld);
 
-			CSCore::Vector3 vMin(std::numeric_limits<f32>::infinity(), std::numeric_limits<f32>::infinity(), std::numeric_limits<f32>::infinity());
+			CS::Vector3 vMin(std::numeric_limits<f32>::infinity(), std::numeric_limits<f32>::infinity(), std::numeric_limits<f32>::infinity());
 			vMin.x = std::min(vMin.x, vBackBottomLeft.x);
 			vMin.x = std::min(vMin.x, vBackBottomRight.x);
 			vMin.x = std::min(vMin.x, vBackTopLeft.x);
@@ -112,7 +112,7 @@ namespace CSPong
 			vMin.z = std::min(vMin.z, vFrontTopLeft.z);
 			vMin.z = std::min(vMin.z, vFrontTopRight.z);
 
-			CSCore::Vector3 vMax(-std::numeric_limits<f32>::infinity(), -std::numeric_limits<f32>::infinity(), -std::numeric_limits<f32>::infinity());
+			CS::Vector3 vMax(-std::numeric_limits<f32>::infinity(), -std::numeric_limits<f32>::infinity(), -std::numeric_limits<f32>::infinity());
 			vMax.x = std::max(vMax.x, vBackBottomLeft.x);
 			vMax.x = std::max(vMax.x, vBackBottomRight.x);
 			vMax.x = std::max(vMax.x, vBackTopLeft.x);
@@ -149,7 +149,7 @@ namespace CSPong
 	//----------------------------------------------------
 	/// Get Object Oriented Bounding Box
 	//----------------------------------------------------
-	const CSCore::OOBB& BallStaticMeshComponent::GetOOBB()
+	const CS::OOBB& BallStaticMeshComponent::GetOOBB()
 	{
 		if (GetEntity() && !m_isOOBBValid)
 		{
@@ -163,13 +163,13 @@ namespace CSPong
 	//----------------------------------------------------
 	/// Get Bounding Sphere
 	//----------------------------------------------------
-	const CSCore::Sphere& BallStaticMeshComponent::GetBoundingSphere()
+	const CS::Sphere& BallStaticMeshComponent::GetBoundingSphere()
 	{
 		if (GetEntity() && !m_isBSValid)
 		{
 			m_isBSValid = true;
 
-			const CSCore::AABB& sAABB = GetAABB();
+			const CS::AABB& sAABB = GetAABB();
 			mBoundingSphere.vOrigin = sAABB.GetOrigin();
 			mBoundingSphere.fRadius = (sAABB.BackTopRight() - sAABB.FrontBottomLeft()).Length() * 0.5f;
 		}
@@ -190,7 +190,7 @@ namespace CSPong
 	//-----------------------------------------------------------
 	/// Set Material
 	//-----------------------------------------------------------
-	void BallStaticMeshComponent::SetMaterial(const CSRendering::MaterialCSPtr& inpMaterial)
+	void BallStaticMeshComponent::SetMaterial(const CS::MaterialCSPtr& inpMaterial)
 	{
 		mpMaterial = inpMaterial;
 
@@ -203,7 +203,7 @@ namespace CSPong
 	//-----------------------------------------------------------
 	/// Set Material For Sub Mesh
 	//-----------------------------------------------------------
-	void BallStaticMeshComponent::SetMaterialForSubMesh(const CSRendering::MaterialCSPtr& inpMaterial, u32 indwSubMeshIndex)
+	void BallStaticMeshComponent::SetMaterialForSubMesh(const CS::MaterialCSPtr& inpMaterial, u32 indwSubMeshIndex)
 	{
 		if (indwSubMeshIndex < mMaterials.size())
 		{
@@ -218,7 +218,7 @@ namespace CSPong
 	//-----------------------------------------------------------
 	/// Set Material For Sub Mesh
 	//-----------------------------------------------------------
-	void BallStaticMeshComponent::SetMaterialForSubMesh(const CSRendering::MaterialCSPtr& inpMaterial, const std::string& instrSubMeshName)
+	void BallStaticMeshComponent::SetMaterialForSubMesh(const CS::MaterialCSPtr& inpMaterial, const std::string& instrSubMeshName)
 	{
 		if (nullptr != mpModel)
 		{
@@ -237,20 +237,20 @@ namespace CSPong
 	//-----------------------------------------------------------
 	/// Get Material Of Sub Mesh
 	//-----------------------------------------------------------
-	CSRendering::MaterialCSPtr BallStaticMeshComponent::GetMaterialOfSubMesh(u32 indwSubMeshIndex) const
+	CS::MaterialCSPtr BallStaticMeshComponent::GetMaterialOfSubMesh(u32 indwSubMeshIndex) const
 	{
 		if (indwSubMeshIndex < mMaterials.size())
 		{
 			return mMaterials[indwSubMeshIndex];
 		}
 
-		CS_LOG_ERROR("Failed to get material from sub mesh " + CSCore::ToString(indwSubMeshIndex));
+		CS_LOG_ERROR("Failed to get material from sub mesh " + CS::ToString(indwSubMeshIndex));
 		return nullptr;
 	}
 	//-----------------------------------------------------------
 	/// Get Material Of Sub Mesh
 	//-----------------------------------------------------------
-	CSRendering::MaterialCSPtr BallStaticMeshComponent::GetMaterialOfSubMesh(const std::string& instrSubMeshName) const
+	CS::MaterialCSPtr BallStaticMeshComponent::GetMaterialOfSubMesh(const std::string& instrSubMeshName) const
 	{
 		if (nullptr != mpModel)
 		{
@@ -268,7 +268,7 @@ namespace CSPong
 	//----------------------------------------------------------
 	/// Attach Mesh
 	//----------------------------------------------------------
-	void BallStaticMeshComponent::AttachMesh(const CSRendering::MeshCSPtr& inpModel)
+	void BallStaticMeshComponent::AttachMesh(const CS::MeshCSPtr& inpModel)
 	{
 		mpModel = inpModel;
 
@@ -279,7 +279,7 @@ namespace CSPong
 	//----------------------------------------------------------
 	/// Attach Mesh
 	//----------------------------------------------------------
-	void BallStaticMeshComponent::AttachMesh(const CSRendering::MeshCSPtr& inpModel, const CSRendering::MaterialCSPtr& inpMaterial)
+	void BallStaticMeshComponent::AttachMesh(const CS::MeshCSPtr& inpModel, const CS::MaterialCSPtr& inpMaterial)
 	{
 		mpModel = inpModel;
 		mpMaterial = inpMaterial;
@@ -293,14 +293,14 @@ namespace CSPong
 	//----------------------------------------------------------
 	/// Get Mesh
 	//----------------------------------------------------------
-	const CSRendering::MeshCSPtr& BallStaticMeshComponent::GetMesh() const
+	const CS::MeshCSPtr& BallStaticMeshComponent::GetMesh() const
 	{
 		return mpModel;
 	}
 	//----------------------------------------------------------
 	/// Render
 	//----------------------------------------------------------
-	void BallStaticMeshComponent::Render(CSRendering::RenderSystem* inpRenderSystem, CSRendering::CameraComponent* inpCam, CSRendering::ShaderPass ineShaderPass)
+	void BallStaticMeshComponent::Render(CS::RenderSystem* inpRenderSystem, CS::CameraComponent* inpCam, CS::ShaderPass ineShaderPass)
 	{
 		if (IsTransparent())
 		{
@@ -311,20 +311,20 @@ namespace CSPong
 		mpModel->Render(inpRenderSystem, GetEntity()->GetTransform().GetWorldTransform(), mMaterials, ineShaderPass);
 
 		//Increment the number of times the ball is rendered
-		CSCore::Application::Get()->GetSystem<CSProfiling::MetricsSystem>()->IncrementRenderBallCalled();
+		CS::Application::Get()->GetSystem<CSProfiling::MetricsSystem>()->IncrementRenderBallCalled();
 	}
 	//----------------------------------------------------------
 	/// Render Shadow Map
 	//----------------------------------------------------------
-	void BallStaticMeshComponent::RenderShadowMap(CSRendering::RenderSystem* inpRenderSystem, CSRendering::CameraComponent* inpCam, const CSRendering::MaterialCSPtr& in_staticShadowMap, const CSRendering::MaterialCSPtr& in_animShadowMap)
+	void BallStaticMeshComponent::RenderShadowMap(CS::RenderSystem* inpRenderSystem, CS::CameraComponent* inpCam, const CS::MaterialCSPtr& in_staticShadowMap, const CS::MaterialCSPtr& in_animShadowMap)
 	{
-		mpModel->Render(inpRenderSystem, GetEntity()->GetTransform().GetWorldTransform(), { in_staticShadowMap }, CSRendering::ShaderPass::k_ambient);
+		mpModel->Render(inpRenderSystem, GetEntity()->GetTransform().GetWorldTransform(), { in_staticShadowMap }, CS::ShaderPass::k_ambient);
 	}
 	//----------------------------------------------------
 	//----------------------------------------------------
 	void BallStaticMeshComponent::OnAddedToScene()
 	{
-		m_transformChangedConnection = GetEntity()->GetTransform().GetTransformChangedEvent().OpenConnection(CSCore::MakeDelegate(this, &BallStaticMeshComponent::OnEntityTransformChanged));
+		m_transformChangedConnection = GetEntity()->GetTransform().GetTransformChangedEvent().OpenConnection(CS::MakeDelegate(this, &BallStaticMeshComponent::OnEntityTransformChanged));
 
 		OnEntityTransformChanged();
 	}

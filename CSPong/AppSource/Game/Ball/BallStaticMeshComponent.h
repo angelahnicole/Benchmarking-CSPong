@@ -41,7 +41,7 @@ namespace CSPong
 	/// A static mesh component. This defines a 3D mesh that can
 	/// be manipulated, textured but not animated.
 	//===============================================================
-	class BallStaticMeshComponent : public CSRendering::RenderComponent
+	class BallStaticMeshComponent : public CS::RenderComponent
 	{
 	public:
 		CS_DECLARE_NAMEDTYPE(BallStaticMeshComponent);
@@ -54,7 +54,7 @@ namespace CSPong
 		/// @param Comparison Type
 		/// @return Whether the class matches the comparison type
 		//----------------------------------------------------------
-		bool IsA(CSCore::InterfaceIDType inInterfaceID) const override;
+		bool IsA(CS::InterfaceIDType inInterfaceID) const override;
 		//----------------------------------------------------
 		/// Get Axis Aligned Bounding Box
 		///
@@ -63,7 +63,7 @@ namespace CSPong
 		/// recomputed when required.
 		/// @return Axis aligned bounding box
 		//----------------------------------------------------
-		const CSCore::AABB& GetAABB() override;
+		const CS::AABB& GetAABB() override;
 		//----------------------------------------------------
 		/// Get Object Oriented Bounding Box
 		///
@@ -72,7 +72,7 @@ namespace CSPong
 		/// recomputed when required.
 		/// @return OOBB
 		//----------------------------------------------------
-		const CSCore::OOBB& GetOOBB() override;
+		const CS::OOBB& GetOOBB() override;
 		//----------------------------------------------------
 		/// Get Bounding Sphere
 		///
@@ -81,7 +81,7 @@ namespace CSPong
 		/// recomputed when required.
 		/// @return bounding sphere
 		//----------------------------------------------------
-		const CSCore::Sphere& GetBoundingSphere() override;
+		const CS::Sphere& GetBoundingSphere() override;
 		//-----------------------------------------------------------
 		/// Is Transparent
 		///
@@ -98,7 +98,7 @@ namespace CSPong
 		///
 		/// @param Handle to material
 		//-----------------------------------------------------------
-		void SetMaterial(const CSRendering::MaterialCSPtr& inpMaterial) override;
+		void SetMaterial(const CS::MaterialCSPtr& inpMaterial) override;
 		//-----------------------------------------------------------
 		/// Set Material For Sub Mesh
 		///
@@ -107,7 +107,7 @@ namespace CSPong
 		/// @param Handle to material
 		/// @Param Index to the submesh
 		//-----------------------------------------------------------
-		void SetMaterialForSubMesh(const CSRendering::MaterialCSPtr& inpMaterial, u32 indwSubMeshIndex);
+		void SetMaterialForSubMesh(const CS::MaterialCSPtr& inpMaterial, u32 indwSubMeshIndex);
 		//-----------------------------------------------------------
 		/// Set Material For Sub Mesh
 		///
@@ -116,7 +116,7 @@ namespace CSPong
 		/// @param Handle to material
 		/// @param The name of the submesh.
 		//-----------------------------------------------------------
-		void SetMaterialForSubMesh(const CSRendering::MaterialCSPtr& inpMaterial, const std::string& instrSubMeshName);
+		void SetMaterialForSubMesh(const CS::MaterialCSPtr& inpMaterial, const std::string& instrSubMeshName);
 		//-----------------------------------------------------------
 		/// Get Material Of Sub Mesh
 		///
@@ -125,7 +125,7 @@ namespace CSPong
 		/// @param Index to the sub mesh
 		/// @return Handle to material
 		//-----------------------------------------------------------
-		CSRendering::MaterialCSPtr GetMaterialOfSubMesh(u32 indwSubMeshIndex) const;
+		CS::MaterialCSPtr GetMaterialOfSubMesh(u32 indwSubMeshIndex) const;
 		//-----------------------------------------------------------
 		/// Get Material Of Sub Mesh
 		///
@@ -134,14 +134,14 @@ namespace CSPong
 		/// @param The name of the submesh.
 		/// @return Handle to material
 		//-----------------------------------------------------------
-		CSRendering::MaterialCSPtr GetMaterialOfSubMesh(const std::string& instrSubMeshName) const;
+		CS::MaterialCSPtr GetMaterialOfSubMesh(const std::string& instrSubMeshName) const;
 		//----------------------------------------------------------
 		/// Attach Mesh
 		///
 		/// Attach a mesh to this component
 		/// @param Mesh object
 		//----------------------------------------------------------
-		void AttachMesh(const CSRendering::MeshCSPtr& inpModel);
+		void AttachMesh(const CS::MeshCSPtr& inpModel);
 		//----------------------------------------------------------
 		/// Attach Mesh
 		///
@@ -149,13 +149,13 @@ namespace CSPong
 		/// material
 		/// @param Mesh object
 		//----------------------------------------------------------
-		void AttachMesh(const CSRendering::MeshCSPtr& inpModel, const CSRendering::MaterialCSPtr& inpMaterial);
+		void AttachMesh(const CS::MeshCSPtr& inpModel, const CS::MaterialCSPtr& inpMaterial);
 		//----------------------------------------------------------
 		/// Get Mesh
 		///
 		/// @return The components internal mesh
 		//----------------------------------------------------------
-		const CSRendering::MeshCSPtr& GetMesh() const;
+		const CS::MeshCSPtr& GetMesh() const;
 
 	private:
 		//----------------------------------------------------------
@@ -167,7 +167,7 @@ namespace CSPong
 		/// @param Active camera component
 		/// @param The current shader pass.
 		//----------------------------------------------------------
-		void Render(CSRendering::RenderSystem* inpRenderSystem, CSRendering::CameraComponent* inpCam, CSRendering::ShaderPass ineShaderPass) override;
+		void Render(CS::RenderSystem* inpRenderSystem, CS::CameraComponent* inpCam, CS::ShaderPass ineShaderPass) override;
 		//-----------------------------------------------------
 		/// Render Shadow Map
 		///
@@ -178,7 +178,7 @@ namespace CSPong
 		/// @param Material to render static shadows with
 		/// @param Material to render skinned shadows with
 		//-----------------------------------------------------
-		void RenderShadowMap(CSRendering::RenderSystem* inpRenderSystem, CSRendering::CameraComponent* inpCam, const CSRendering::MaterialCSPtr& in_staticShadowMap, const CSRendering::MaterialCSPtr& in_animShadowMap) override;
+		void RenderShadowMap(CS::RenderSystem* inpRenderSystem, CS::CameraComponent* inpCam, const CS::MaterialCSPtr& in_staticShadowMap, const CS::MaterialCSPtr& in_animShadowMap) override;
 		//----------------------------------------------------
 		/// Triggered when the component is attached to
 		/// an entity on the scene
@@ -203,10 +203,10 @@ namespace CSPong
 
 	private:
 
-		CSRendering::MeshCSPtr mpModel;
-		std::vector<CSRendering::MaterialCSPtr> mMaterials;
+		CS::MeshCSPtr mpModel;
+		std::vector<CS::MaterialCSPtr> mMaterials;
 
-		CSCore::EventConnectionUPtr m_transformChangedConnection;
+		CS::EventConnectionUPtr m_transformChangedConnection;
 
 		bool m_isBSValid;
 		bool m_isAABBValid;

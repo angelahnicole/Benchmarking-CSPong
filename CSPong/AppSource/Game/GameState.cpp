@@ -57,30 +57,30 @@ namespace CSPong
         m_physicsSystem = CreateSystem<PhysicsSystem>();
         m_scoringSystem = CreateSystem<ScoringSystem>();
         m_gameEntityFactory = CreateSystem<GameEntityFactory>(m_physicsSystem, m_scoringSystem);
-		m_metricsSystem = CSCore::Application::Get()->GetSystem<CSProfiling::MetricsSystem>();
+		m_metricsSystem = CS::Application::Get()->GetSystem<CSProfiling::MetricsSystem>();
     }
     //------------------------------------------------------------
     //------------------------------------------------------------
     void GameState::OnInit()
     {   
-        GetScene()->SetClearColour(CSCore::Colour::k_black);
+        GetScene()->SetClearColour(CS::Colour::k_black);
         
-        CSCore::EntitySPtr camera = m_gameEntityFactory->CreateCamera();
+        CS::EntitySPtr camera = m_gameEntityFactory->CreateCamera();
         GetScene()->Add(camera);
 
-        CSCore::EntitySPtr ambientLight = m_gameEntityFactory->CreateAmbientLight();
+        CS::EntitySPtr ambientLight = m_gameEntityFactory->CreateAmbientLight();
         GetScene()->Add(ambientLight);
         
-        CSCore::EntitySPtr diffuseLight = m_gameEntityFactory->CreateDiffuseLight();
+        CS::EntitySPtr diffuseLight = m_gameEntityFactory->CreateDiffuseLight();
         GetScene()->Add(diffuseLight);
         
-        CSCore::EntitySPtr arena = m_gameEntityFactory->CreateArena();
+        CS::EntitySPtr arena = m_gameEntityFactory->CreateArena();
         GetScene()->Add(arena);
         
         m_ball = m_gameEntityFactory->CreateBall();
         GetScene()->Add(m_ball);
         
-        m_scoreChangedConnection = m_scoringSystem->GetScoreChangedEvent().OpenConnection(CSCore::MakeDelegate(this, &GameState::OnGoalScored));
+        m_scoreChangedConnection = m_scoringSystem->GetScoreChangedEvent().OpenConnection(CS::MakeDelegate(this, &GameState::OnGoalScored));
         m_transitionInConnection = m_transitionSystem->GetTransitionInFinishedEvent().OpenConnection([=]()
         {
             m_ball->GetComponent<BallControllerComponent>()->Activate();

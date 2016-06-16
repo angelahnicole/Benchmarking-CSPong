@@ -71,84 +71,84 @@ namespace CSPong
     }
     //----------------------------------------------------------
     //----------------------------------------------------------
-    bool GameEntityFactory::IsA(CSCore::InterfaceIDType in_interfaceId) const
+    bool GameEntityFactory::IsA(CS::InterfaceIDType in_interfaceId) const
     {
         return in_interfaceId == GameEntityFactory::InterfaceID;
     }
     //------------------------------------------------------------
     //------------------------------------------------------------
-    CSCore::EntityUPtr GameEntityFactory::CreateCamera() const
+    CS::EntityUPtr GameEntityFactory::CreateCamera() const
     {   
-        CSCore::EntityUPtr camera(CSCore::Entity::Create());
+        CS::EntityUPtr camera(CS::Entity::Create());
         
-        CameraTiltComponentSPtr cameraTiltComponent(new CameraTiltComponent(CSCore::Vector3::k_unitPositiveZ));
+        CameraTiltComponentSPtr cameraTiltComponent(new CameraTiltComponent(CS::Vector3::k_unitPositiveZ));
         camera->AddComponent(cameraTiltComponent);
         
         const f32 k_fov = 3.14f / 3.0f;
         const f32 k_viewportHeight = 100.0f;
         f32 dist = (0.5f * k_viewportHeight) / std::tan(k_fov * 0.5f);
-        auto renderFactory = CSCore::Application::Get()->GetSystem<CSRendering::RenderComponentFactory>();
+        auto renderFactory = CS::Application::Get()->GetSystem<CS::RenderComponentFactory>();
         
-        CSRendering::CameraComponentSPtr cameraComponent = renderFactory->CreatePerspectiveCameraComponent(k_fov, 10.0f, 150.0f);
+        CS::CameraComponentSPtr cameraComponent = renderFactory->CreatePerspectiveCameraComponent(k_fov, 10.0f, 150.0f);
         camera->AddComponent(cameraComponent);
-        camera->GetTransform().SetLookAt(CSCore::Vector3::k_unitNegativeZ * dist, CSCore::Vector3::k_zero, CSCore::Vector3::k_unitPositiveY);
+        camera->GetTransform().SetLookAt(CS::Vector3::k_unitNegativeZ * dist, CS::Vector3::k_zero, CS::Vector3::k_unitPositiveY);
         
         return camera;
     }
     //------------------------------------------------------------
     //------------------------------------------------------------
-    CSCore::EntityUPtr GameEntityFactory::CreateDiffuseLight() const
+    CS::EntityUPtr GameEntityFactory::CreateDiffuseLight() const
     { 
-        CSCore::EntityUPtr light(CSCore::Entity::Create());
+        CS::EntityUPtr light(CS::Entity::Create());
         
-        auto renderFactory = CSCore::Application::Get()->GetSystem<CSRendering::RenderComponentFactory>();
+        auto renderFactory = CS::Application::Get()->GetSystem<CS::RenderComponentFactory>();
         
-        CSRendering::DirectionalLightComponentSPtr lightComponent = renderFactory->CreateDirectionalLightComponent(1024);
+        CS::DirectionalLightComponentSPtr lightComponent = renderFactory->CreateDirectionalLightComponent(1024);
         lightComponent->SetIntensity(2.0f);
-        lightComponent->SetColour(CSCore::Colour::k_orange);
+        lightComponent->SetColour(CS::Colour::k_orange);
         
         const f32 k_distanceFromGround = 70.0f;
-        CSCore::Vector3 lightDir(-1, 1, 1);
+        CS::Vector3 lightDir(-1, 1, 1);
         lightDir.Normalise();
-        CSCore::Vector3 lightPos = -lightDir * k_distanceFromGround;
+        CS::Vector3 lightPos = -lightDir * k_distanceFromGround;
         
         lightComponent->SetShadowVolume(130.0f, 130.0f, 1.0f, 130.0f);
         lightComponent->SetShadowTolerance(0.05f);
-        light->GetTransform().SetLookAt(lightPos, CSCore::Vector3::k_zero, CSCore::Vector3::k_unitPositiveY);
+        light->GetTransform().SetLookAt(lightPos, CS::Vector3::k_zero, CS::Vector3::k_unitPositiveY);
         light->AddComponent(lightComponent);
         
         return light;
     }
     //------------------------------------------------------------
     //------------------------------------------------------------
-    CSCore::EntityUPtr GameEntityFactory::CreateAmbientLight() const
+    CS::EntityUPtr GameEntityFactory::CreateAmbientLight() const
     {
-        CSCore::EntityUPtr light(CSCore::Entity::Create());
+        CS::EntityUPtr light(CS::Entity::Create());
         
-        auto renderFactory = CSCore::Application::Get()->GetSystem<CSRendering::RenderComponentFactory>();
+        auto renderFactory = CS::Application::Get()->GetSystem<CS::RenderComponentFactory>();
         
-        CSRendering::AmbientLightComponentSPtr lightComponent = renderFactory->CreateAmbientLightComponent();
-        lightComponent->SetColour(CSCore::Colour::k_white * 0.5f);
+        CS::AmbientLightComponentSPtr lightComponent = renderFactory->CreateAmbientLightComponent();
+        lightComponent->SetColour(CS::Colour::k_white * 0.5f);
         light->AddComponent(lightComponent);
         
         return light;
     }
     //------------------------------------------------------------
     //------------------------------------------------------------
-    CSCore::EntitySPtr GameEntityFactory::CreateBall() const
+    CS::EntitySPtr GameEntityFactory::CreateBall() const
     {   
-        auto resourcePool = CSCore::Application::Get()->GetResourcePool();
-        CSRendering::MeshCSPtr mesh = resourcePool->LoadResource<CSRendering::Mesh>(CSCore::StorageLocation::k_package, "Models/Ball.csmodel");
-        CSRendering::MaterialCSPtr material = resourcePool->LoadResource<CSRendering::Material>(CSCore::StorageLocation::k_package, "Materials/Models/Models.csmaterial");
+        auto resourcePool = CS::Application::Get()->GetResourcePool();
+        CS::MeshCSPtr mesh = resourcePool->LoadResource<CS::Mesh>(CS::StorageLocation::k_package, "Models/Ball.csmodel");
+        CS::MaterialCSPtr material = resourcePool->LoadResource<CS::Material>(CS::StorageLocation::k_package, "Materials/Models/Models.csmaterial");
         
-        CSCore::EntitySPtr ball(CSCore::Entity::Create());
+        CS::EntitySPtr ball(CS::Entity::Create());
         
-        auto renderFactory = CSCore::Application::Get()->GetSystem<CSRendering::RenderComponentFactory>();
+        auto renderFactory = CS::Application::Get()->GetSystem<CS::RenderComponentFactory>();
 		BallStaticMeshComponentSPtr meshComponent(new BallStaticMeshComponent());
 		meshComponent->AttachMesh(mesh, material);
         ball->AddComponent(meshComponent);
         
-        CSCore::Vector2 collisionSize = mesh->GetAABB().GetSize().XY();
+        CS::Vector2 collisionSize = mesh->GetAABB().GetSize().XY();
         DynamicBodyComponentSPtr dynamicBody(new DynamicBodyComponent(m_physicsSystem, collisionSize, 1.0f, 0.0f, 1.0f));
         ball->AddComponent(dynamicBody);
         
@@ -157,54 +157,54 @@ namespace CSPong
         
         m_scoringSystem->AddBallBody(dynamicBody);
 
-		auto particleECFSystem = CSCore::Application::Get()->GetSystem<ParticleEffectComponentFactory>();
+		auto particleECFSystem = CS::Application::Get()->GetSystem<ParticleEffectComponentFactory>();
 		particleECFSystem->AddBallParticles(ball);
         
         return ball;
     }
     //------------------------------------------------------------
     //------------------------------------------------------------
-    CSCore::EntityUPtr GameEntityFactory::CreateArena() const
+    CS::EntityUPtr GameEntityFactory::CreateArena() const
     {
-        CSCore::EntityUPtr arena(CSCore::Entity::Create());
+        CS::EntityUPtr arena(CS::Entity::Create());
         
-        auto renderFactory = CSCore::Application::Get()->GetSystem<CSRendering::RenderComponentFactory>();
-        auto resourcePool = CSCore::Application::Get()->GetResourcePool();
+        auto renderFactory = CS::Application::Get()->GetSystem<CS::RenderComponentFactory>();
+        auto resourcePool = CS::Application::Get()->GetResourcePool();
         
-        CSRendering::MeshCSPtr mesh = resourcePool->LoadResource<CSRendering::Mesh>(CSCore::StorageLocation::k_package, "Models/Arena.csmodel");
-        CSRendering::MaterialCSPtr material = resourcePool->LoadResource<CSRendering::Material>(CSCore::StorageLocation::k_package, "Materials/Models/Models.csmaterial");
+        CS::MeshCSPtr mesh = resourcePool->LoadResource<CS::Mesh>(CS::StorageLocation::k_package, "Models/Arena.csmodel");
+        CS::MaterialCSPtr material = resourcePool->LoadResource<CS::Material>(CS::StorageLocation::k_package, "Materials/Models/Models.csmaterial");
         
         const f32 k_border = 1.0f;
-        const CSCore::Vector2 k_arenaDimensions(mesh->GetAABB().GetSize().XY() * 0.95f);
+        const CS::Vector2 k_arenaDimensions(mesh->GetAABB().GetSize().XY() * 0.95f);
         
-        CSRendering::StaticMeshComponentSPtr meshComponent = renderFactory->CreateStaticMeshComponent(mesh, material);
+        CS::StaticMeshComponentSPtr meshComponent = renderFactory->CreateStaticMeshComponent(mesh, material);
         meshComponent->SetShadowCastingEnabled(false);
         arena->AddComponent(meshComponent);
         
-        CSCore::EntitySPtr bottomEdge(CSCore::Entity::Create());
-        bottomEdge->GetTransform().SetPosition(CSCore::Vector3(0.0f, -k_arenaDimensions.y * 0.5f - k_border * 0.5f, 0.0f));
-        StaticBodyComponentSPtr bottomEdgeStaticBody(new StaticBodyComponent(m_physicsSystem, CSCore::Vector2(k_arenaDimensions.x + k_border * 2.0f, k_border)));
+        CS::EntitySPtr bottomEdge(CS::Entity::Create());
+        bottomEdge->GetTransform().SetPosition(CS::Vector3(0.0f, -k_arenaDimensions.y * 0.5f - k_border * 0.5f, 0.0f));
+        StaticBodyComponentSPtr bottomEdgeStaticBody(new StaticBodyComponent(m_physicsSystem, CS::Vector2(k_arenaDimensions.x + k_border * 2.0f, k_border)));
         bottomEdge->AddComponent(bottomEdgeStaticBody);
         arena->AddEntity(bottomEdge);
         
-        CSCore::EntitySPtr topEdge(CSCore::Entity::Create());
-        topEdge->GetTransform().SetPosition(CSCore::Vector3(0.0f, k_arenaDimensions.y * 0.5f + k_border * 0.5f, 0.0f));
-        StaticBodyComponentSPtr topEdgeStaticBody(new StaticBodyComponent(m_physicsSystem, CSCore::Vector2(k_arenaDimensions.x + k_border * 2.0f, k_border)));
+        CS::EntitySPtr topEdge(CS::Entity::Create());
+        topEdge->GetTransform().SetPosition(CS::Vector3(0.0f, k_arenaDimensions.y * 0.5f + k_border * 0.5f, 0.0f));
+        StaticBodyComponentSPtr topEdgeStaticBody(new StaticBodyComponent(m_physicsSystem, CS::Vector2(k_arenaDimensions.x + k_border * 2.0f, k_border)));
         topEdge->AddComponent(topEdgeStaticBody);
         arena->AddEntity(topEdge);
         
-        CSCore::EntitySPtr leftEdge(CSCore::Entity::Create());
-        leftEdge->GetTransform().SetPosition(CSCore::Vector3(-k_arenaDimensions.x * 0.5f - k_border * 0.5f, 0.0f, 0.0f));
-		StaticBodyComponentSPtr leftEdgeStaticBody(new StaticBodyComponent(m_physicsSystem, CSCore::Vector2(k_border, k_arenaDimensions.y + k_border * 2.0f)));
-        TriggerComponentSPtr leftEdgeTrigger(new TriggerComponent(m_physicsSystem, CSCore::Vector2(k_border * 2.0f, k_arenaDimensions.y)));
+        CS::EntitySPtr leftEdge(CS::Entity::Create());
+        leftEdge->GetTransform().SetPosition(CS::Vector3(-k_arenaDimensions.x * 0.5f - k_border * 0.5f, 0.0f, 0.0f));
+		StaticBodyComponentSPtr leftEdgeStaticBody(new StaticBodyComponent(m_physicsSystem, CS::Vector2(k_border, k_arenaDimensions.y + k_border * 2.0f)));
+        TriggerComponentSPtr leftEdgeTrigger(new TriggerComponent(m_physicsSystem, CS::Vector2(k_border * 2.0f, k_arenaDimensions.y)));
 		leftEdge->AddComponent(leftEdgeStaticBody);
         leftEdge->AddComponent(leftEdgeTrigger);
         arena->AddEntity(leftEdge);
         
-        CSCore::EntitySPtr rightEdge(CSCore::Entity::Create());
-        rightEdge->GetTransform().SetPosition(CSCore::Vector3(k_arenaDimensions.x * 0.5f + k_border * 0.5f, 0.0f, 0.0f));
-		StaticBodyComponentSPtr rightEdgeStaticBody(new StaticBodyComponent(m_physicsSystem, CSCore::Vector2(k_border, k_arenaDimensions.y + k_border * 2.0f)));
-        TriggerComponentSPtr rightEdgeTrigger(new TriggerComponent(m_physicsSystem, CSCore::Vector2(k_border * 2.0f, k_arenaDimensions.y)));
+        CS::EntitySPtr rightEdge(CS::Entity::Create());
+        rightEdge->GetTransform().SetPosition(CS::Vector3(k_arenaDimensions.x * 0.5f + k_border * 0.5f, 0.0f, 0.0f));
+		StaticBodyComponentSPtr rightEdgeStaticBody(new StaticBodyComponent(m_physicsSystem, CS::Vector2(k_border, k_arenaDimensions.y + k_border * 2.0f)));
+        TriggerComponentSPtr rightEdgeTrigger(new TriggerComponent(m_physicsSystem, CS::Vector2(k_border * 2.0f, k_arenaDimensions.y)));
 		rightEdge->AddComponent(rightEdgeStaticBody);
 		rightEdge->AddComponent(rightEdgeTrigger);
         arena->AddEntity(rightEdge);
@@ -216,17 +216,17 @@ namespace CSPong
     }
     //------------------------------------------------------------
     //------------------------------------------------------------
-    CSCore::EntityUPtr GameEntityFactory::CreateScoreSprite(const CSCore::Vector2& in_size, CSRendering::AlignmentAnchor in_alignmentAnchor) const
+    CS::EntityUPtr GameEntityFactory::CreateScoreSprite(const CS::Vector2& in_size, CS::AlignmentAnchor in_alignmentAnchor) const
     {
-        auto renderFactory = CSCore::Application::Get()->GetSystem<CSRendering::RenderComponentFactory>();
-        auto resPool = CSCore::Application::Get()->GetResourcePool();
-        auto digitAtlas = resPool->LoadResource<CSRendering::TextureAtlas>(CSCore::StorageLocation::k_package, "TextureAtlases/Digits/Digits.csatlas");
-        auto digitMaterial = resPool->LoadResource<CSRendering::Material>(CSCore::StorageLocation::k_package, "Materials/Digits/Digits.csmaterial");
-        CSRendering::SpriteComponentSPtr spriteComponent = renderFactory->CreateSpriteComponent(in_size, digitAtlas, "0", digitMaterial, CSRendering::SpriteComponent::SizePolicy::k_fitMaintainingAspect);
+        auto renderFactory = CS::Application::Get()->GetSystem<CS::RenderComponentFactory>();
+        auto resPool = CS::Application::Get()->GetResourcePool();
+        auto digitAtlas = resPool->LoadResource<CS::TextureAtlas>(CS::StorageLocation::k_package, "TextureAtlases/Digits/Digits.csatlas");
+        auto digitMaterial = resPool->LoadResource<CS::Material>(CS::StorageLocation::k_package, "Materials/Digits/Digits.csmaterial");
+        CS::SpriteComponentSPtr spriteComponent = renderFactory->CreateSpriteComponent(in_size, digitAtlas, "0", digitMaterial, CS::SizePolicy::k_fitMaintainingAspect);
         spriteComponent->SetColour(0.5f, 0.5f, 0.5f, 0.5f);
         spriteComponent->SetOriginAlignment(in_alignmentAnchor);
         
-        CSCore::EntityUPtr scoreEnt = CSCore::Entity::Create();
+        CS::EntityUPtr scoreEnt = CS::Entity::Create();
         scoreEnt->AddComponent(spriteComponent);
         return scoreEnt;
     }

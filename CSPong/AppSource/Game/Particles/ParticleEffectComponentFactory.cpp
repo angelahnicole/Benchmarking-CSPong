@@ -60,7 +60,7 @@ namespace CSPong
 	}
 	//----------------------------------------------------------
 	//----------------------------------------------------------
-	bool ParticleEffectComponentFactory::IsA(CSCore::InterfaceIDType in_interfaceId) const
+	bool ParticleEffectComponentFactory::IsA(CS::InterfaceIDType in_interfaceId) const
 	{
 		return in_interfaceId == ParticleEffectComponentFactory::InterfaceID;
 	}
@@ -68,7 +68,7 @@ namespace CSPong
 	//----------------------------------------------------------
 	void ParticleEffectComponentFactory::ReleaseCollisionConnections()
 	{
-		for (std::vector<CSCore::EventConnectionSPtr>::size_type i = 0; i != m_collisionConnections.size(); i++)
+		for (std::vector<CS::EventConnectionSPtr>::size_type i = 0; i != m_collisionConnections.size(); i++)
 		{
 			m_collisionConnections[i].reset();
 		}
@@ -77,15 +77,15 @@ namespace CSPong
 	}
 	//----------------------------------------------------------
 	//----------------------------------------------------------
-	CSRendering::ParticleEffectComponentSPtr ParticleEffectComponentFactory::CreateOnCollisionParticleEffectComponent(const ParticleType in_particleType, CSCore::IConnectableEvent<DynamicBodyComponent::CollisionDelegate>& in_collisionEvent)
+	CS::ParticleEffectComponentSPtr ParticleEffectComponentFactory::CreateOnCollisionParticleEffectComponent(const ParticleType in_particleType, CS::IConnectableEvent<DynamicBodyComponent::CollisionDelegate>& in_collisionEvent)
 	{
-		CSRendering::ParticleEffectComponentSPtr particleEffectComponent = CreateParticleEffectComponent(in_particleType, false);
+		CS::ParticleEffectComponentSPtr particleEffectComponent = CreateParticleEffectComponent(in_particleType, false);
 
 		//The m_collisionConnections vector keeps the event connection in scope. In order to avoid having two copies of a shared pointer
 		//and having the program hang on exit, the event connection is pushed directly onto the m_collisionConnections vector.
 		m_collisionConnections.push_back
 		(
-			in_collisionEvent.OpenConnection([=](const CSCore::Vector2& in_collisionDirection, CSCore::Entity* in_collidedEntity)
+			in_collisionEvent.OpenConnection([=](const CS::Vector2& in_collisionDirection, CS::Entity* in_collidedEntity)
 			{
 				if (particleEffectComponent != nullptr && !particleEffectComponent->IsPlaying())
 				{
@@ -98,77 +98,77 @@ namespace CSPong
 	}
 	//----------------------------------------------------------
 	//----------------------------------------------------------
-	CSRendering::ParticleEffectComponentUPtr ParticleEffectComponentFactory::CreateParticleEffectComponent(const ParticleType in_particleType, const bool in_looping) const
+	CS::ParticleEffectComponentUPtr ParticleEffectComponentFactory::CreateParticleEffectComponent(const ParticleType in_particleType, const bool in_looping) const
 	{
-		auto resourcePool = CSCore::Application::Get()->GetResourcePool();
-		auto renderFactory = CSCore::Application::Get()->GetSystem<CSRendering::RenderComponentFactory>();
+		auto resourcePool = CS::Application::Get()->GetResourcePool();
+		auto renderFactory = CS::Application::Get()->GetSystem<CS::RenderComponentFactory>();
 
-		CSRendering::ParticleEffectCSPtr particleEffect = nullptr;
+		CS::ParticleEffectCSPtr particleEffect = nullptr;
 		switch (in_particleType)
 		{
 		case ParticleType::k_blueIceCreamBurst:
-			particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/BlueIceCreamBurst/Base.csparticle");
+			particleEffect = resourcePool->LoadResource<CS::ParticleEffect>(CS::StorageLocation::k_package, "Particles/BlueIceCreamBurst/Base.csparticle");
 			break;
 		case ParticleType::k_smokeStreamBase:
-			particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/SmokeStream/Base_Transparent_NoCulling.csparticle");
+			particleEffect = resourcePool->LoadResource<CS::ParticleEffect>(CS::StorageLocation::k_package, "Particles/SmokeStream/Base_Transparent_NoCulling.csparticle");
 			break;
         case ParticleType::k_smokeStreamTimes10:
-            particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/SmokeStream/Times10_Transparent_NoCulling.csparticle");
+            particleEffect = resourcePool->LoadResource<CS::ParticleEffect>(CS::StorageLocation::k_package, "Particles/SmokeStream/Times10_Transparent_NoCulling.csparticle");
             break;
         case ParticleType::k_smokeStreamTimes50:
-            particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/SmokeStream/Times50_Transparent_NoCulling.csparticle");
+            particleEffect = resourcePool->LoadResource<CS::ParticleEffect>(CS::StorageLocation::k_package, "Particles/SmokeStream/Times50_Transparent_NoCulling.csparticle");
             break;
         case ParticleType::k_smokeStreamTimes100:
-            particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/SmokeStream/Times100_Transparent_NoCulling.csparticle");
+            particleEffect = resourcePool->LoadResource<CS::ParticleEffect>(CS::StorageLocation::k_package, "Particles/SmokeStream/Times100_Transparent_NoCulling.csparticle");
             break;
         case ParticleType::k_smokeStreamTimes500:
-            particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/SmokeStream/Times500_Transparent_NoCulling.csparticle");
+            particleEffect = resourcePool->LoadResource<CS::ParticleEffect>(CS::StorageLocation::k_package, "Particles/SmokeStream/Times500_Transparent_NoCulling.csparticle");
             break;
 		case ParticleType::k_smokeStreamTimes1000:
-			particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/SmokeStream/Times1000_Transparent_NoCulling.csparticle");
+			particleEffect = resourcePool->LoadResource<CS::ParticleEffect>(CS::StorageLocation::k_package, "Particles/SmokeStream/Times1000_Transparent_NoCulling.csparticle");
 			break;
 		default:
-			particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, "Particles/SmokeStream/Base.csparticle");
+			particleEffect = resourcePool->LoadResource<CS::ParticleEffect>(CS::StorageLocation::k_package, "Particles/SmokeStream/Base.csparticle");
 			break;
 		}
 
-		CSRendering::ParticleEffectComponentUPtr particleComponent = renderFactory->CreateParticleEffectComponent(particleEffect);
+		CS::ParticleEffectComponentUPtr particleComponent = renderFactory->CreateParticleEffectComponent(particleEffect);
 
 		if (in_looping)
 		{
-			particleComponent->SetPlaybackType(CSRendering::ParticleEffectComponent::PlaybackType::k_looping);
+			particleComponent->SetPlaybackType(CS::ParticleEffectComponent::PlaybackType::k_looping);
 		}
 		else
 		{
-			particleComponent->SetPlaybackType(CSRendering::ParticleEffectComponent::PlaybackType::k_once);
+			particleComponent->SetPlaybackType(CS::ParticleEffectComponent::PlaybackType::k_once);
 		}
 
 		return particleComponent;
 	}
     //----------------------------------------------------------
     //----------------------------------------------------------
-    CSRendering::ParticleEffectComponentUPtr ParticleEffectComponentFactory::CreateParticleEffectComponent(const std::string in_particleFileName, const bool in_looping) const
+    CS::ParticleEffectComponentUPtr ParticleEffectComponentFactory::CreateParticleEffectComponent(const std::string in_particleFileName, const bool in_looping) const
     {
-        auto resourcePool = CSCore::Application::Get()->GetResourcePool();
-        auto renderFactory = CSCore::Application::Get()->GetSystem<CSRendering::RenderComponentFactory>();
+        auto resourcePool = CS::Application::Get()->GetResourcePool();
+        auto renderFactory = CS::Application::Get()->GetSystem<CS::RenderComponentFactory>();
         
-        CSRendering::ParticleEffectCSPtr particleEffect = resourcePool->LoadResource<CSRendering::ParticleEffect>(CSCore::StorageLocation::k_package, in_particleFileName);
-        CSRendering::ParticleEffectComponentUPtr particleComponent = renderFactory->CreateParticleEffectComponent(particleEffect);
+        CS::ParticleEffectCSPtr particleEffect = resourcePool->LoadResource<CS::ParticleEffect>(CS::StorageLocation::k_package, in_particleFileName);
+        CS::ParticleEffectComponentUPtr particleComponent = renderFactory->CreateParticleEffectComponent(particleEffect);
         
         if (in_looping)
         {
-            particleComponent->SetPlaybackType(CSRendering::ParticleEffectComponent::PlaybackType::k_looping);
+            particleComponent->SetPlaybackType(CS::ParticleEffectComponent::PlaybackType::k_looping);
         }
         else
         {
-            particleComponent->SetPlaybackType(CSRendering::ParticleEffectComponent::PlaybackType::k_once);
+            particleComponent->SetPlaybackType(CS::ParticleEffectComponent::PlaybackType::k_once);
         }
         
         return particleComponent;
     }
 	//------------------------------------------------------------
 	//------------------------------------------------------------
-	void ParticleEffectComponentFactory::AddBallParticles(CSCore::EntitySPtr in_ballEntity)
+	void ParticleEffectComponentFactory::AddBallParticles(CS::EntitySPtr in_ballEntity)
 	{
         if(m_ballParticleTypes.size() > 0)
         {
